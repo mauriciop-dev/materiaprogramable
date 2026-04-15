@@ -386,18 +386,11 @@ const fullTitle = `${title} | Materia Programable`;
 							<span>Insight</span>
 						</button>
 						
-						<button class="interaction-btn" id="suggestionBtn">
+						<a href="https://formspree.io/f/mzdyzqwb" target="_blank" rel="noopener noreferrer" class="interaction-btn">
 							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
 							<span>Sugerir</span>
-						</button>
+						</a>
 					</div>
-					
-					<form action="https://formspree.io/f/mzdyzqwb" method="POST" class="suggestion-form" id="suggestionForm">
-						<input type="hidden" name="_subject" value={`Sugerencia para artículo: ${title}`} />
-						<textarea name="message" placeholder="Comparte tu sugerencia o comentario sobre este artículo..."></textarea>
-						<button type="submit">Enviar Sugerencia</button>
-						<div class="success-msg" id="successMsg">✅ ¡Gracias! Tu sugerencia ha sido enviada.</div>
-					</form>
 
 					<div class="chat-section">
 						<h3>
