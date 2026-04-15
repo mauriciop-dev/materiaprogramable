@@ -1,0 +1,26 @@
+<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a1128"/>
+      <stop offset="100%" style="stop-color:#1a1a4e"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="600" cy="315" r="180" fill="#8b5cf6" opacity="0.1"/>
+  <g fill="none" stroke="#8b5cf6" stroke-width="2" opacity="0.5">
+    <path d="M450,315 Q525,250 600,315 Q675,380 750,315">
+      <animate attributeName="d" values="M450,315 Q525,250 600,315 Q675,380 750,315;M450,315 Q525,280 600,315 Q675,350 750,315;M450,315 Q525,250 600,315 Q675,380 750,315" dur="3s" repeatCount="indefinite"/>
+    </path>
+  </g>
+  <g fill="#06b6d4" opacity="0.3">
+    <circle cx="450" cy="315" r="8">
+      <animate attributeName="r" values="8;10;8" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="600" cy="315" r="10">
+      <animate attributeName="r" values="10;12;10" dur="2s" repeatCount="indefinite" begin="0.5s"/>
+    </circle>
+    <circle cx="750" cy="315" r="8">
+      <animate attributeName="r" values="8;10;8" dur="2s" repeatCount="indefinite" begin="1s"/>
+    </circle>
+  </g>
+</svg>

@@ -1,0 +1,32 @@
+Materia Programable y Moda Evolutiva: Active Textile Tailoring del MIT
+El Self-Assembly Lab del MIT, en colaboración con el equipo de diseño de Ministry of Supply, ha desarrollado un proyecto pionero denominado Active Textile Tailoring. Esta iniciativa representa un avance significativo en el campo de la materia programable aplicada a la industria textil, donde la prenda deja de ser un objeto estático para convertirse en un sistema dinámico capaz de adaptarse a la morfología específica de cada usuario mediante estímulos externos controlados.
+
+El corazón de esta tecnología reside en el uso de fibras inteligentes y técnicas de tejido avanzadas que permiten "programar" el comportamiento del material. A través de un proceso de activación térmica localizado, las fibras del tejido se contraen o expanden en puntos estratégicos. Esto permite que una prenda estándar sea personalizada en tiempo real, ajustándose a las medidas exactas del cuerpo o creando estructuras estéticas tridimensionales que antes requerían procesos de costura manuales complejos y costosos.
+
+Este enfoque no solo redefine la personalización masiva, sino que también ataca uno de los mayores problemas de la industria de la moda: el desperdicio. Al utilizar la materia programable para el ajuste de tallas, es posible producir prendas en tamaños genéricos que luego se "ajustan" al consumidor final, reduciendo inventarios no vendidos y devoluciones por problemas de talla. El video del proyecto ilustra cómo el calor transforma una superficie plana en una estructura con volumen y ajuste preciso, demostrando que el diseño asistido por computadora y la ciencia de materiales pueden converger en una nueva forma de manufactura autónoma.
+
+Desde una perspectiva técnica, el Active Textile Tailoring es un ejemplo magistral de cómo la programación de la materia puede integrarse en la vida cotidiana. La capacidad de controlar la forma a nivel molecular en textiles abre la puerta a uniformes deportivos que mejoran el rendimiento, ropa médica compresiva autoadaptable y una nueva era de diseño sostenible donde la durabilidad y la funcionalidad evolucionan junto con el usuario.
+
+Video del Proyecto: Active Textile Tailoring
+Puedes visualizar el proceso de transformación y la tecnología de activación térmica en el siguiente enlace oficial:
+
+Ver video en Vimeo: Active Textile Tailoring - Self-Assembly Lab
+
+(Nota: Como modelo de lenguaje, no puedo reproducir el video directamente dentro de este chat, pero el enlace anterior te llevará al registro visual oficial de los experimentos realizados por el MIT).
+
+Active Textile Tailoring: Programmable Matter in Fashion
+The MIT Self-Assembly Lab, in collaboration with the Ministry of Supply design team, has developed a pioneering project called Active Textile Tailoring. This initiative represents a significant leap in the field of programmable matter applied to the textile industry, where clothing stops being a static object and becomes a dynamic system capable of adapting to the specific morphology of each user through controlled external stimuli.
+
+The core of this technology lies in the use of smart fibers and advanced knitting techniques that allow the "programming" of the material's behavior. Through a localized thermal activation process, the textile fibers contract or expand at strategic points. This allows a standard garment to be customized in real-time, fitting the exact measurements of the body or creating three-dimensional aesthetic structures that previously required complex and costly manual sewing processes.
+
+This approach not only redefines mass customization but also tackles one of the fashion industry's biggest problems: waste. By using programmable matter for size adjustment, it is possible to produce garments in generic sizes that then "fit" the end consumer, reducing unsold inventory and returns due to sizing issues. The project video illustrates how heat transforms a flat surface into a structure with volume and precise fit, demonstrating that computer-aided design and materials science can converge into a new form of autonomous manufacturing.
+
+From a technical perspective, Active Textile Tailoring is a masterclass in how matter programming can be integrated into everyday life. The ability to control shape at the molecular level in textiles opens the door to performance-enhancing sportswear, self-adapting medical compression clothing, and a new era of sustainable design where durability and functionality evolve alongside the user.
+
+Fuentes consultadas / Sources:
+
+MIT Self-Assembly Lab. (2018). Active Textile Tailoring. https://selfassemblylab.mit.edu/active-textile-tailoring/
+
+Ministry of Supply. (2019). The Future of Kinetic Fabrics and Custom Fit.
+
+Vimeo. (2018). Active Textile Tailoring - Video Showcase. https://vimeo.com/298407221

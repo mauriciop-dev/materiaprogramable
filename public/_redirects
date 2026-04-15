@@ -1,0 +1,6 @@
+# Cloudflare Pages redirects
+# This file tells Cloudflare how to handle routing
+
+# All blog posts are generated as folders with index.html inside
+# Cloudflare Pages should handle these automatically as static files
+# No redirects needed - files are served directly from the build output

@@ -1,0 +1,261 @@
+---
+// ArticleCanvas.astro - Configurable Three.js animation for blog articles
+interface Props {
+  theme?: string;
+  primaryColor?: string;
+  secondaryColor?: string;
+  particleCount?: number;
+  shape?: string;
+  movement?: string;
+  speed?: number;
+  interaction?: string;
+  cameraMode?: string;
+  specialEffects?: string;
+}
+
+const {
+  theme = "sci-fi",
+  primaryColor = "#00ffff",
+  secondaryColor = "#8b5cf6",
+  particleCount = 1500,
+  shape = "particles",
+  movement = "floating",
+  speed = 1.0,
+  interaction = "mouse",
+  cameraMode = "auto-rotate",
+  specialEffects = "glow"
+} = Astro.props;
+---
+
+<div id="article-canvas-container" class="fixed inset-0 z-[-1] bg-black" data-theme={theme} data-primary={primaryColor} data-secondary={secondaryColor} data-count={particleCount} data-shape={shape} data-movement={movement} data-speed={speed} data-interaction={interaction} data-camera={cameraMode} data-effects={specialEffects}></div>
+
+<script>
+  import * as THREE from 'three';
+
+  const container = document.getElementById('article-canvas-container');
+  if (!container) throw new Error('Canvas container not found');
+
+  // Get params from data attributes
+  const params = {
+    theme: container.dataset.theme || 'sci-fi',
+    primary: new THREE.Color(container.dataset.primary || '#00ffff'),
+    secondary: new THREE.Color(container.dataset.secondary || '#8b5cf6'),
+    count: parseInt(container.dataset.count) || 1500,
+    shape: container.dataset.shape || 'particles',
+    movement: container.dataset.movement || 'floating',
+    speed: parseFloat(container.dataset.speed) || 1.0,
+    interaction: container.dataset.interaction || 'mouse',
+    camera: container.dataset.camera || 'auto-rotate',
+    effects: container.dataset.effects || 'glow'
+  };
+
+  // Scene setup
+  const scene = new THREE.Scene();
+  scene.fog = new THREE.FogExp2(0x010409, 0.002);
+
+  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera.position.z = 40;
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  container.appendChild(renderer.domElement);
+
+  // Create particles based on shape
+  let particles, geometry, positions, colors;
+
+  function createParticles() {
+    const count = params.count;
+    geometry = new THREE.BufferGeometry();
+    positions = new Float32Array(count * 3);
+    colors = new Float32Array(count * 3);
+
+    const primary = params.primary;
+    const secondary = params.secondary;
+
+    for (let i = 0; i < count; i++) {
+      const i3 = i * 3;
+      
+      // Shape-specific positioning
+      switch (params.shape) {
+        case 'spheres':
+          const theta = Math.random() * Math.PI * 2;
+          const phi = Math.acos(2 * Math.random() - 1);
+          const r = 15 + Math.random() * 10;
+          positions[i3] = r * Math.sin(phi) * Math.cos(theta);
+          positions[i3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+          positions[i3 + 2] = r * Math.cos(phi);
+          break;
+        case 'cubes':
+          positions[i3] = (Math.random() - 0.5) * 30;
+          positions[i3 + 1] = (Math.random() - 0.5) * 30;
+          positions[i3 + 2] = (Math.random() - 0.5) * 30;
+          break;
+        case 'helix':
+          const t = (i / count) * Math.PI * 8;
+          const radius = 10 + Math.random() * 3;
+          positions[i3] = radius * Math.cos(t);
+          positions[i3 + 1] = (i / count - 0.5) * 40;
+          positions[i3 + 2] = radius * Math.sin(t);
+          break;
+        case 'network':
+          positions[i3] = (Math.random() - 0.5) * 40;
+          positions[i3 + 1] = (Math.random() - 0.5) * 40;
+          positions[i3 + 2] = (Math.random() - 0.5) * 40;
+          break;
+        case 'waves':
+          positions[i3] = (i / count - 0.5) * 50;
+          positions[i3 + 1] = Math.sin(i / count * Math.PI * 4) * 5;
+          positions[i3 + 2] = (Math.random() - 0.5) * 20;
+          break;
+        default: // particles
+          positions[i3] = (Math.random() - 0.5) * 50;
+          positions[i3 + 1] = (Math.random() - 0.5) * 50;
+          positions[i3 + 2] = (Math.random() - 0.5) * 50;
+      }
+
+      // Color mixing
+      const mixRatio = Math.random();
+      const color = new THREE.Color().lerpColors(primary, secondary, mixRatio);
+      colors[i3] = color.r;
+      colors[i3 + 1] = color.g;
+      colors[i3 + 2] = color.b;
+    }
+
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+    // Material based on effects
+    let material;
+    if (params.effects === 'wireframe') {
+      material = new THREE.PointsMaterial({
+        size: 0.3,
+        vertexColors: true,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.6
+      });
+    } else if (params.effects === 'transparent') {
+      material = new THREE.PointsMaterial({
+        size: 0.2,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.4
+      });
+    } else if (params.effects === 'trails') {
+      material = new THREE.PointsMaterial({
+        size: 0.15,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.7,
+        blending: THREE.AdditiveBlending
+      });
+    } else { // glow (default)
+      material = new THREE.PointsMaterial({
+        size: 0.2,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.8,
+        blending: THREE.AdditiveBlending
+      });
+    }
+
+    particles = new THREE.Points(geometry, material);
+    scene.add(particles);
+  }
+
+  createParticles();
+
+  // Mouse interaction
+  let mouseX = 0, mouseY = 0, targetX = 0, targetY = 0;
+  const halfX = window.innerWidth / 2;
+  const halfY = window.innerHeight / 2;
+
+  if (params.interaction !== 'none') {
+    document.addEventListener('mousemove', (e) => {
+      mouseX = (e.clientX - halfX) * 0.001;
+      mouseY = (e.clientY - halfY) * 0.001;
+    });
+  }
+
+  // Animation
+  const clock = new THREE.Clock();
+  let frame = 0;
+
+  function animate() {
+    const elapsed = clock.getElapsedTime();
+    const delta = clock.getDelta();
+    frame++;
+
+    targetX += (mouseX - targetX) * 0.05;
+    targetY += (mouseY - targetY) * 0.05;
+
+    // Movement patterns
+    const speedMult = params.speed;
+    const posArray = geometry.attributes.position.array;
+
+    switch (params.movement) {
+      case 'pulsing':
+        const scale = 1 + Math.sin(elapsed * speedMult) * 0.1;
+        particles.scale.set(scale, scale, scale);
+        break;
+      case 'flowing':
+        for (let i = 0; i < params.count; i++) {
+          const i3 = i * 3;
+          posArray[i3 + 1] += Math.sin(elapsed + posArray[i3] * 0.1) * 0.02 * speedMult;
+        }
+        geometry.attributes.position.needsUpdate = true;
+        break;
+      case 'orbiting':
+        particles.rotation.y += 0.002 * speedMult;
+        particles.rotation.x += 0.001 * speedMult;
+        break;
+      case 'swarming':
+        posArray[0] += Math.sin(elapsed * 2) * 0.1;
+        posArray[1] += Math.cos(elapsed * 2) * 0.1;
+        geometry.attributes.position.needsUpdate = true;
+        break;
+      case 'floating':
+      default:
+        for (let i = 0; i < params.count; i++) {
+          const i3 = i * 3;
+          posArray[i3 + 1] += Math.sin(elapsed * 0.5 + i * 0.01) * 0.01 * speedMult;
+        }
+        geometry.attributes.position.needsUpdate = true;
+    }
+
+    // Camera modes
+    if (params.camera === 'auto-rotate') {
+      camera.position.x = Math.sin(elapsed * 0.2) * 5;
+      camera.position.y = Math.cos(elapsed * 0.2) * 5;
+      camera.lookAt(scene.position);
+    } else if (params.camera === 'orbit') {
+      particles.rotation.y = targetX * 2;
+      particles.rotation.x = targetY * 2;
+    }
+
+    renderer.render(scene, camera);
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+
+  // Resize handler
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+</script>
+
+<style>
+  #article-canvas-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    background: radial-gradient(circle at center, #0a1128 0%, #010409 100%);
+  }
+</style>

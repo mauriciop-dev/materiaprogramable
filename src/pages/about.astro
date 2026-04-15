@@ -1,0 +1,232 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import ArticleCanvas from '../components/ArticleCanvas.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+---
+
+<!doctype html>
+<html lang="es">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<style>
+			main {
+				max-width: 800px;
+				margin: 0 auto;
+				padding: 2rem;
+			}
+			.about-content {
+				color: rgb(var(--gray-light));
+				line-height: 1.8;
+			}
+			.about-content h2 {
+				color: var(--accent);
+				margin-top: 2rem;
+				margin-bottom: 1rem;
+				text-shadow: 0 0 10px rgba(0, 240, 255, 0.4);
+			}
+			.about-content h3 {
+				color: #fff;
+				margin-top: 1.5rem;
+				margin-bottom: 0.5rem;
+			}
+			.about-content p {
+				margin-bottom: 1rem;
+			}
+			.about-content ul {
+				list-style: none;
+				padding: 0;
+				margin: 1rem 0;
+			}
+			.about-content li {
+				padding: 0.5rem 0;
+				padding-left: 1.5rem;
+				position: relative;
+			}
+			.about-content li::before {
+				content: "⚛";
+				position: absolute;
+				left: 0;
+				color: var(--accent);
+			}
+			.author-signature {
+				margin-top: 3rem;
+				padding-top: 1rem;
+				border-top: 1px solid var(--glass-border);
+				font-style: italic;
+				color: var(--accent);
+			}
+			.subscribe-form {
+				margin-top: 3rem;
+				padding: 2rem;
+				background: rgba(0, 0, 0, 0.3);
+				border-radius: 12px;
+				border: 1px solid var(--glass-border);
+			}
+			.subscribe-form h3 {
+				color: var(--accent);
+				text-align: center;
+				margin-bottom: 1rem;
+			}
+			.subscribe-form p {
+				text-align: center;
+				color: rgb(var(--gray-light));
+				margin-bottom: 1.5rem;
+			}
+			.subscribe-form input[type="email"] {
+				width: 100%;
+				padding: 0.8rem 1rem;
+				border-radius: 8px;
+				border: 1px solid var(--glass-border);
+				background: rgba(0, 0, 0, 0.5);
+				color: #fff;
+				font-size: 1rem;
+				margin-bottom: 1rem;
+				box-sizing: border-box;
+			}
+			.subscribe-form input[type="email"]:focus {
+				outline: none;
+				border-color: var(--accent);
+				box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+			}
+			.subscribe-form button {
+				width: 100%;
+				padding: 0.8rem 1.5rem;
+				border-radius: 8px;
+				border: none;
+				background: linear-gradient(135deg, var(--accent), #8b5cf6);
+				color: #fff;
+				font-size: 1rem;
+				font-weight: bold;
+				cursor: pointer;
+				transition: transform 0.2s, box-shadow 0.2s;
+			}
+			.subscribe-form button:hover {
+				transform: translateY(-2px);
+				box-shadow: 0 0 20px rgba(0, 240, 255, 0.5);
+			}
+			.subscribe-form button:disabled {
+				opacity: 0.6;
+				cursor: not-allowed;
+			}
+			.success-message {
+				display: none;
+				padding: 1rem;
+				background: rgba(0, 255, 0, 0.2);
+				border: 1px solid #00ff00;
+				border-radius: 8px;
+				color: #00ff00;
+				text-align: center;
+				margin-top: 1rem;
+			}
+			.success-message.show {
+				display: block;
+			}
+		</style>
+	</head>
+	<body>
+		<ArticleCanvas 
+			theme="sci-fi" 
+			primaryColor="#00ffff" 
+			secondaryColor="#8b5cf6" 
+			particleCount={2000} 
+			shape="spheres" 
+			movement="orbiting" 
+			speed={1.0} 
+			interaction="mouse" 
+			cameraMode="auto-rotate" 
+			specialEffects="glow" 
+		/>
+		<Header />
+		<main>
+			<article class="about-content">
+				<h1 style="color: var(--accent); text-align: center; margin-bottom: 2rem;">Sobre el Proyecto: Bits y Átomos en Convergencia</h1>
+				
+				<p>Mi nombre es <strong>Mauricio Pineda</strong>. Soy Desarrollador de Aplicaciones con IA y fundador de <strong>ProDig (Prospectiva Digital)</strong>. Este blog nace de una pasión que surgió hace cuatro años mientras veía Star Trek con mi hija; allí conocí el concepto de Materia Programable y, desde ese momento, entenderla y desarrollarla se convirtió en uno de los propósitos de mi vida.</p>
+
+				<h2>¿Qué es la Materia Programable?</h2>
+				<p>En términos sencillos, es la capacidad de convertir la materia física en "software". Es lograr que los materiales tengan la habilidad de alterar sus propiedades físicas (forma, densidad, conductividad o color) de manera reversible y controlada. Esto ocurre ya sea como respuesta a estímulos externos (luz, temperatura, campos magnéticos) o mediante una programación predefinida codificada en la propia estructura del material.</p>
+
+				<h2>Cuatro Enfoques de Vanguardia</h2>
+				<p>Hoy, universidades e institutos alrededor del mundo abordan este desafío desde diversas fronteras científicas:</p>
+				<ul>
+					<li><strong>Claytronics (Catoms):</strong> El concepto de "átomos de arcilla" o microrobots a escala milimétrica que se autoensamblan para formar objetos macroscópicos.</li>
+					<li><strong>Impresión 4D:</strong> Materiales impresos en 3D que "evolucionan" y cambian su forma con el tiempo cuando se exponen a energía térmica o hídrica.</li>
+					<li><strong>Metales Líquidos y Ferrofluidos:</strong> El uso de aleaciones (como el Galio) y partículas magnéticas controladas por voltaje para crear circuitos y estructuras dinámicas.</li>
+					<li><strong>Nanofabricación de ADN:</strong> El uso de las propiedades de autoensamblaje del ADN para construir máquinas y sensores a escala molecular con una precisión atómica.</li>
+				</ul>
+
+				<h2>Un Cambio de Paradigma: De Husserl a la Realidad</h2>
+				<p>Estamos a las puertas de una era donde no solo programaremos el código (bits), sino también el hardware (átomos). Esta idea es revolucionaria porque involucra un cambio de paradigma para la humanidad e incluso plantea dilemas filosóficos profundos.</p>
+				<p>Siempre nos hemos sentido cómodos con la "esencia" estática de las cosas: un pocillo es un pocillo porque su forma es inalterable. Con la materia programable, ese concepto de objeto estático implosiona. Creo que <strong>Edmund Husserl</strong>, el padre de la fenomenología, sonreiría desde el más allá al ver cómo la "cosa misma" deja de ser una entidad fija para convertirse en una interfaz fluida entre nuestra intención y el mundo físico.</p>
+
+				<h2>Una Invitación a Latam</h2>
+				<p>Este blog es un primer esfuerzo para promover el entendimiento de la materia programable en Colombia y Latinoamérica. Cada semana compartiré nuevos artículos, simulaciones interactivas y videos de los avances globales, con el ánimo de que estudiantes, científicos y empresas de nuestra región tengan acceso a esta información y decidan enfocar esfuerzos en esta área.</p>
+				<p>Mi meta a largo plazo es fundar el <strong>ILMP (Instituto Latinoamericano de Materia Programable)</strong>, una institución dedicada a brindando apoyo técnico y estratégico a quienes deseen investigar en este campo. Esta es una tarea que no puedo realizar solo; requiere la suma de esfuerzos de múltiples sectores.</p>
+				<p>Si eres parte de una universidad o empresa interesada en estas tecnologías, estaré encantado de aportar mi experiencia en Inteligencia Artificial para apoyar sus investigaciones o iniciativas.</p>
+				<p>Te invito a leer los artículos, participar en la comunidad, suscribirte y dejar tus aportes. <strong>Bienvenidos al futuro donde la realidad es reconfigurable.</strong></p>
+
+				<p class="author-signature">— Mauricio Pineda</p>
+
+				<div class="subscribe-form">
+					<h3>📧 Suscríbete al Boletín</h3>
+					<p>Recibe las últimas actualizaciones sobre materia programable directamente en tu correo.</p>
+					<form id="subscribeForm" action="https://formspree.io/f/mzdyzqwb" method="POST">
+						<input type="email" name="email" placeholder="Tu correo electrónico" required />
+						<button type="submit">Suscribirse</button>
+					</form>
+					<div id="successMessage" class="success-message">
+						✅ ¡Gracias por suscribirte! Pronto recibirás nuestras actualizaciones.
+					</div>
+				</div>
+			</article>
+		</main>
+		<Footer />
+
+		<script>
+			const form = document.getElementById('subscribeForm');
+			const successMessage = document.getElementById('successMessage');
+
+			if (form) {
+				form.addEventListener('submit', async (e) => {
+					e.preventDefault();
+					
+					const formData = new FormData(form);
+					const button = form.querySelector('button');
+					button.disabled = true;
+					button.textContent = 'Enviando...';
+
+					try {
+						const response = await fetch(form.action, {
+							method: 'POST',
+							body: formData,
+							headers: {
+								'Accept': 'application/json'
+							}
+						});
+
+						if (response.ok) {
+							form.reset();
+							successMessage.classList.add('show');
+							button.textContent = 'Suscribirse';
+							button.disabled = false;
+							
+							setTimeout(() => {
+								successMessage.classList.remove('show');
+							}, 5000);
+						} else {
+							button.disabled = false;
+							button.textContent = 'Suscribirse';
+							alert('Hubo un error. Por favor intenta de nuevo.');
+						}
+					} catch (error) {
+						button.disabled = false;
+						button.textContent = 'Suscribirse';
+						alert('Hubo un error. Por favor intenta de nuevo.');
+					}
+				});
+			}
+		</script>
+	</body>
+</html>

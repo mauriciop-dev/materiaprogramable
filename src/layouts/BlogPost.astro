@@ -1,0 +1,626 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import Header from '../components/Header.astro';
+import ArticleCanvas from '../components/ArticleCanvas.astro';
+
+type Props = CollectionEntry<'blog'>['data'];
+
+const { title, description, pubDate, updatedDate, heroImage, animation, ogImage } = Astro.props;
+const currentUrl = Astro.url.href;
+const fullTitle = `${title} | Materia Programable`;
+---
+
+<html lang={Astro.url.pathname.includes('/blog/en/') ? 'en' : 'es'}>
+	<head>
+		<BaseHead title={fullTitle} description={description} ogImage={ogImage} />
+		<script define:vars={{ currentUrl, fullTitle, description }}>
+			window.SHARE_DATA = {
+				url: currentUrl,
+				title: fullTitle,
+				description: description
+			};
+		</script>
+		<style>
+			main {
+				width: calc(100% - 2em);
+				max-width: 100%;
+				margin: 0;
+			}
+			.hero-image {
+				width: 100%;
+			}
+			.hero-image img {
+				display: block;
+				margin: 0 auto;
+				border-radius: 12px;
+				box-shadow: var(--box-shadow);
+			}
+			.prose {
+				width: 720px;
+				max-width: calc(100% - 2em);
+				margin: auto;
+				padding: 1.5rem;
+				color: rgb(var(--gray-light));
+				background: rgba(0, 0, 0, 0.3);
+				border-radius: 12px;
+				border: 1px solid var(--glass-border);
+			}
+			.title {
+				margin-bottom: 1em;
+				padding: 1em 0;
+				text-align: center;
+				line-height: 1;
+			}
+			.title h1 {
+				margin: 0 0 0.5em 0;
+			}
+			.date {
+				margin-bottom: 0.5em;
+				color: rgb(var(--gray-light));
+			}
+			.last-updated-on {
+				font-style: italic;
+			}
+			.interaction-bar {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				gap: 0.8rem;
+				padding: 1.5rem;
+				margin: 2rem 0;
+				background: rgba(0, 0, 0, 0.3);
+				border-radius: 12px;
+				border: 1px solid var(--glass-border);
+				flex-wrap: wrap;
+			}
+			.interaction-btn {
+				display: flex;
+				align-items: center;
+				gap: 0.4rem;
+				padding: 0.6rem 1rem;
+				background: rgba(0, 240, 255, 0.1);
+				border: 1px solid var(--accent);
+				border-radius: 8px;
+				color: var(--accent);
+				font-size: 0.85rem;
+				cursor: pointer;
+				transition: all 0.3s ease;
+				text-decoration: none;
+			}
+			.interaction-btn:hover {
+				background: rgba(0, 240, 255, 0.2);
+				transform: translateY(-2px);
+				box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+			}
+			.interaction-btn svg {
+				width: 18px;
+				height: 18px;
+				flex-shrink: 0;
+			}
+			.like-btn.liked {
+				background: rgba(255, 100, 100, 0.2);
+				border-color: #ff6464;
+				color: #ff6464;
+			}
+			.like-count {
+				font-weight: bold;
+				min-width: 20px;
+				text-align: center;
+			}
+			.share-menu {
+				position: relative;
+			}
+			.share-dropdown {
+				display: none;
+				position: absolute;
+				top: 100%;
+				left: 50%;
+				transform: translateX(-50%);
+				margin-top: 0.5rem;
+				background: rgba(0, 0, 0, 0.9);
+				border: 1px solid var(--glass-border);
+				border-radius: 8px;
+				padding: 0.5rem;
+				z-index: 100;
+			}
+			.share-dropdown.show {
+				display: flex;
+				flex-direction: column;
+				gap: 0.3rem;
+			}
+			.share-option {
+				display: flex;
+				align-items: center;
+				gap: 0.5rem;
+				padding: 0.5rem 0.8rem;
+				border-radius: 6px;
+				text-decoration: none;
+				font-size: 0.8rem;
+				transition: background 0.2s;
+			}
+			.share-option:hover {
+				background: rgba(0, 240, 255, 0.1);
+			}
+			.share-option.facebook { color: #1877f2; }
+			.share-option.whatsapp { color: #25d366; }
+			.share-option.linkedin { color: #0a66c2; }
+			.share-option.gmail { color: #ea4335; }
+			.share-option svg {
+				width: 16px;
+				height: 16px;
+			}
+			.suggestion-form {
+				display: none;
+				margin-top: 1rem;
+				padding: 1rem;
+				background: rgba(0, 0, 0, 0.5);
+				border-radius: 8px;
+			}
+			.suggestion-form.show {
+				display: block;
+			}
+			.suggestion-form textarea {
+				width: 100%;
+				padding: 0.8rem;
+				border-radius: 8px;
+				border: 1px solid var(--glass-border);
+				background: rgba(0, 0, 0, 0.5);
+				color: #fff;
+				font-size: 0.9rem;
+				resize: vertical;
+				min-height: 100px;
+				box-sizing: border-box;
+			}
+			.suggestion-form textarea:focus {
+				outline: none;
+				border-color: var(--accent);
+			}
+			.suggestion-form button {
+				margin-top: 0.8rem;
+				padding: 0.6rem 1.2rem;
+				background: var(--accent);
+				border: none;
+				border-radius: 6px;
+				color: #000;
+				font-weight: bold;
+				cursor: pointer;
+				transition: transform 0.2s;
+			}
+			.suggestion-form button:hover {
+				transform: translateY(-2px);
+			}
+			.success-msg {
+				display: none;
+				color: #00ff00;
+				margin-top: 0.5rem;
+				text-align: center;
+			}
+			.success-msg.show {
+				display: block;
+			}
+			.insight-btn {
+				background: rgba(167, 139, 250, 0.1);
+				border-color: #a78bfa;
+				color: #a78bfa;
+			}
+			.insight-btn:hover {
+				background: rgba(167, 139, 250, 0.2);
+				box-shadow: 0 0 15px rgba(167, 139, 250, 0.3);
+			}
+			.chat-section {
+				margin: 2rem 0;
+				padding: 1.5rem;
+				background: rgba(0, 0, 0, 0.4);
+				border-radius: 12px;
+				border: 1px solid var(--glass-border);
+			}
+			.chat-section h3 {
+				color: var(--accent);
+				margin: 0 0 1rem 0;
+				text-align: center;
+			}
+			.chat-input-container {
+				display: flex;
+				gap: 0.5rem;
+			}
+			.chat-input {
+				flex: 1;
+				padding: 0.8rem;
+				border-radius: 8px;
+				border: 1px solid var(--glass-border);
+				background: rgba(0, 0, 0, 0.5);
+				color: #fff;
+				font-size: 0.9rem;
+			}
+			.chat-input:focus {
+				outline: none;
+				border-color: var(--accent);
+			}
+			.chat-send-btn {
+				padding: 0.8rem 1.2rem;
+				background: linear-gradient(135deg, var(--accent), #8b5cf6);
+				border: none;
+				border-radius: 8px;
+				color: #fff;
+				font-weight: bold;
+				cursor: pointer;
+				transition: transform 0.2s;
+			}
+			.chat-send-btn:hover {
+				transform: translateY(-2px);
+			}
+			.chat-response {
+				margin-top: 1rem;
+				padding: 1rem;
+				background: rgba(0, 0, 0, 0.3);
+				border-radius: 8px;
+				border-left: 3px solid var(--accent);
+				display: none;
+			}
+			.chat-response.show {
+				display: block;
+			}
+			.community-form {
+				margin: 2rem 0;
+				padding: 1.5rem;
+				background: rgba(0, 0, 0, 0.4);
+				border-radius: 12px;
+				border: 1px solid var(--glass-border);
+			}
+			.community-form h3 {
+				color: var(--accent);
+				margin: 0 0 0.5rem 0;
+				text-align: center;
+			}
+			.community-form p {
+				color: rgb(var(--gray-light));
+				text-align: center;
+				font-size: 0.9rem;
+				margin-bottom: 1rem;
+			}
+			.community-form input {
+				width: 100%;
+				padding: 0.8rem;
+				border-radius: 8px;
+				border: 1px solid var(--glass-border);
+				background: rgba(0, 0, 0, 0.5);
+				color: #fff;
+				font-size: 0.9rem;
+				margin-bottom: 0.8rem;
+				box-sizing: border-box;
+			}
+			.community-form input:focus {
+				outline: none;
+				border-color: var(--accent);
+			}
+			.community-form button {
+				width: 100%;
+				padding: 0.8rem;
+				background: linear-gradient(135deg, #00ffff, #8b5cf6);
+				border: none;
+				border-radius: 8px;
+				color: #000;
+				font-weight: bold;
+				font-size: 1rem;
+				cursor: pointer;
+				transition: transform 0.2s;
+			}
+			.community-form button:hover {
+				transform: translateY(-2px);
+				box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+			}
+			.community-success {
+				display: none;
+				color: #00ff00;
+				text-align: center;
+				margin-top: 1rem;
+			}
+			.community-success.show {
+				display: block;
+			}
+		</style>
+	</head>
+
+	<body>
+		{animation && <ArticleCanvas theme={animation.theme} primaryColor={animation.primaryColor} secondaryColor={animation.secondaryColor} particleCount={animation.particleCount} shape={animation.shape} movement={animation.movement} speed={animation.speed} interaction={animation.interaction} cameraMode={animation.cameraMode} specialEffects={animation.specialEffects} />}
+		<Header />
+		<main>
+			<article>
+				<div class="hero-image">
+					{heroImage && <img width={1020} height={510} src={heroImage} alt="" />}
+				</div>
+				<div class="prose">
+					<div class="title">
+						<div class="date">
+							<FormattedDate date={pubDate} />
+							{
+								updatedDate && (
+									<div class="last-updated-on">
+										Last updated on <FormattedDate date={updatedDate} />
+									</div>
+								)
+							}
+						</div>
+						<h1>{title}</h1>
+						<hr />
+					</div>
+					<slot />
+					
+					<div class="interaction-bar">
+						<button class="interaction-btn like-btn" id="likeBtn">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+							<span class="like-count" id="likeCount">0</span>
+							<span id="likeText">Me gusta</span>
+						</button>
+						
+						<div class="share-menu">
+							<button class="interaction-btn" id="shareBtn">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+								<span>Compartir</span>
+							</button>
+							<div class="share-dropdown" id="shareDropdown">
+								<a href="#" class="share-option facebook" id="shareFacebook">
+									<svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+									Facebook
+								</a>
+								<a href="#" class="share-option whatsapp" id="shareWhatsapp">
+									<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.162-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a5.026 5.026 0 01-5.019-5.018 5.026 5.026 0 015.019-5.019 5.026 5.026 0 015.018 5.018 5.026 5.026 0 01-5.018 5.019m7.389-5.948c-.87.87-2.016.87-2.887.087-1.635-1.466-3.17-3.422-3.17-5.435 0-2.109 1.786-3.948 4.095-3.948 1.102 0 2.057.421 2.793 1.239.737.818 1.145 1.902 1.145 3.074 0 2.166-1.787 3.947-4.064 5.016z"/></svg>
+									WhatsApp
+								</a>
+								<a href="#" class="share-option linkedin" id="shareLinkedin">
+									<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+									LinkedIn
+								</a>
+								<a href="#" class="share-option gmail" id="shareGmail">
+									<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+									Gmail
+								</a>
+							</div>
+						</div>
+						
+						<button class="interaction-btn insight-btn" id="insightBtn">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+							<span>Insight</span>
+						</button>
+						
+						<button class="interaction-btn" id="suggestionBtn">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+							<span>Sugerir</span>
+						</button>
+					</div>
+					
+					<form action="https://formspree.io/f/mzdyzqwb" method="POST" class="suggestion-form" id="suggestionForm">
+						<input type="hidden" name="_subject" value={`Sugerencia para artículo: ${title}`} />
+						<textarea name="message" placeholder="Comparte tu sugerencia o comentario sobre este artículo..."></textarea>
+						<button type="submit">Enviar Sugerencia</button>
+						<div class="success-msg" id="successMsg">✅ ¡Gracias! Tu sugerencia ha sido enviada.</div>
+					</form>
+
+					<div class="chat-section">
+						<h3>
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px;height:24px;vertical-align:middle;margin-right:8px;"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+							Pregúntale al Artículo
+						</h3>
+						<p style="font-size: 0.85rem; opacity: 0.7; margin-bottom: 1rem;">Pregunta sobre el contenido y la IA te responderá usando solo este artículo como contexto.</p>
+						<div class="chat-input-container">
+							<input type="text" class="chat-input" id="chatInput" placeholder="¿De qué trata este artículo?" />
+							<button class="chat-send-btn" id="chatSend">Enviar</button>
+						</div>
+						<div class="chat-response" id="chatResponse"></div>
+					</div>
+
+					<form action="https://formspree.io/f/xpwzgjdz" method="POST" class="community-form" id="communityForm">
+						<h3>
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px;height:24px;vertical-align:middle;margin-right:8px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+							Unirse a la Red de Investigación
+						</h3>
+						<p>Sé parte de la comunidad de materia programable en Latinoamérica</p>
+						<input type="text" name="name" placeholder="Tu nombre" required />
+						<input type="email" name="email" placeholder="Tu correo electrónico" required />
+						<input type="text" name="affiliation" placeholder="Universidad o empresa (opcional)" />
+						<button type="submit">Unirse a la Red de Investigación</button>
+						<div class="community-success" id="communitySuccess">✅ ¡Bienvenido a la comunidad! Te contactaremos pronto.</div>
+					</form>
+				</div>
+			</article>
+		</main>
+		<Footer />
+
+		<script>
+			const likeBtn = document.getElementById('likeBtn');
+			const likeCount = document.getElementById('likeCount');
+			const likeText = document.getElementById('likeText');
+			let liked = false;
+			let likeCounter = Math.floor(Math.random() * 50) + 10;
+			
+			if (likeCount) likeCount.textContent = likeCounter.toString();
+			
+			if (likeBtn) {
+				likeBtn.addEventListener('click', () => {
+					liked = !liked;
+					if (liked) {
+						likeCounter++;
+						if (likeText) likeText.textContent = 'Te gusta';
+					} else {
+						likeCounter--;
+						if (likeText) likeText.textContent = 'Me gusta';
+					}
+					if (likeCount) likeCount.textContent = likeCounter.toString();
+					likeBtn.classList.toggle('liked');
+				});
+			}
+
+			const shareBtn = document.getElementById('shareBtn');
+			const shareDropdown = document.getElementById('shareDropdown');
+			const shareData = window.SHARE_DATA || { url: window.location.href, title: document.title, description: '' };
+
+			if (shareBtn && shareDropdown) {
+				shareBtn.addEventListener('click', (e) => {
+					e.preventDefault();
+					shareDropdown.classList.toggle('show');
+				});
+
+				document.addEventListener('click', (e) => {
+					if (!shareBtn.contains(e.target) && !shareDropdown.contains(e.target)) {
+						shareDropdown.classList.remove('show');
+					}
+				});
+			}
+
+			const shareFacebook = document.getElementById('shareFacebook');
+			const shareWhatsapp = document.getElementById('shareWhatsapp');
+			const shareLinkedin = document.getElementById('shareLinkedin');
+			const shareGmail = document.getElementById('shareGmail');
+
+			if (shareFacebook) {
+				shareFacebook.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareData.url)}&quote=${encodeURIComponent(shareData.title)}`;
+			}
+			if (shareWhatsapp) {
+				shareWhatsapp.href = `https://wa.me/?text=${encodeURIComponent(shareData.title + ' - ' + shareData.url)}`;
+			}
+			if (shareLinkedin) {
+				shareLinkedin.href = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(shareData.url)}&title=${encodeURIComponent(shareData.title)}&summary=${encodeURIComponent(shareData.description)}`;
+			}
+			if (shareGmail) {
+				shareGmail.href = `mailto:?subject=${encodeURIComponent(shareData.title)}&body=${encodeURIComponent('Mira este artículo: ' + shareData.url)}`;
+			}
+
+			const suggestionForm = document.getElementById('suggestionForm');
+			const communityForm = document.getElementById('communityForm');
+			const successMsg = document.getElementById('successMsg');
+			const communitySuccess = document.getElementById('communitySuccess');
+
+			if (suggestionForm) {
+				suggestionForm.addEventListener('submit', async (e) => {
+					e.preventDefault();
+					const formData = new FormData(suggestionForm);
+					try {
+						const response = await fetch(suggestionForm.action, {
+							method: 'POST',
+							body: formData,
+							headers: { 'Accept': 'application/json' }
+						});
+						if (response.ok) {
+							suggestionForm.reset();
+							successMsg.classList.add('show');
+							setTimeout(() => successMsg.classList.remove('show'), 5000);
+						}
+					} catch (err) {
+						console.error('Error:', err);
+					}
+				});
+			}
+
+			if (communityForm) {
+				communityForm.addEventListener('submit', async (e) => {
+					e.preventDefault();
+					const formData = new FormData(communityForm);
+					try {
+						const response = await fetch(communityForm.action, {
+							method: 'POST',
+							body: formData,
+							headers: { 'Accept': 'application/json' }
+						});
+						if (response.ok) {
+							communityForm.reset();
+							communitySuccess.classList.add('show');
+							setTimeout(() => communitySuccess.classList.remove('show'), 5000);
+						}
+					} catch (err) {
+						console.error('Error:', err);
+					}
+				});
+			}
+
+			const insightBtn = document.getElementById('insightBtn');
+			if (insightBtn) {
+				insightBtn.addEventListener('click', () => {
+					alert('💡 INSIGHT: Este artículo aborda conceptos de materia programable. Los puntos clave son:\n\n• Transformación de materia física en software\n• Sistemas que pueden cambiar propiedades físicas de forma controlada\n• Aplicaciones en robótica, impresión 4D y más\n\n¿Te interesa profundizar en algún aspecto específico?');
+				});
+			}
+
+			const chatInput = document.getElementById('chatInput');
+			const chatSend = document.getElementById('chatSend');
+			const chatResponse = document.getElementById('chatResponse');
+
+			function getArticleContent() {
+				const articleElement = document.querySelector('.prose');
+				if (articleElement) {
+					return articleElement.innerText;
+				}
+				return '';
+			}
+
+			function generateResponse(question, content) {
+				const q = question.toLowerCase();
+				const sentences = content.split(/[.!?]+/).filter(s => s.trim().length > 20);
+				
+				const questionPatterns = {
+					'diferencia': () => {
+						const robotKeywords = ['robotica tradicional', 'un solo robot', 'una tarea'];
+						const mpKeywords = ['materia programable', 'enjambre', 'sistemas distribuidos', 'cooperacion masiva', 'unidades minimas'];
+						
+						const robotSentences = sentences.filter(s => 
+							robotKeywords.some(k => s.toLowerCase().includes(k))
+						);
+						const mpSentences = sentences.filter(s => 
+							mpKeywords.some(k => s.toLowerCase().includes(k))
+						);
+						
+						if (robotSentences.length > 0 && mpSentences.length > 0) {
+							return `La principal diferencia es que la <strong>robótica tradicional</strong> consiste en robots individuales que cumplen una tarea específica, mientras que la <strong>materia programable</strong> se basa en inteligencia de enjambre y sistemas distribuidos donde miles de unidades mínimas trabajan cooperando para crear objetos emergentes. ${mpSentences[0]}`;
+						}
+						return sentences[0] || '';
+					},
+					'que es': () => {
+						const match = content.match(/materia programable[^.]+/i);
+						return match ? match[0].substring(0, 300) + '.' : sentences[0];
+					},
+					'resumen': () => {
+						return sentences.slice(0, 2).join('. ') + '.';
+					}
+				};
+
+				for (const [pattern, handler] of Object.entries(questionPatterns)) {
+					if (q.includes(pattern)) {
+						const response = handler(content);
+						if (response) return response;
+					}
+				}
+
+				const randomSentences = sentences.sort(() => 0.5 - Math.random()).slice(0, 2);
+				if (randomSentences.length > 0) {
+					return randomSentences.join('. ') + '.';
+				}
+				
+				return `Este artículo trata sobre materia programable. ${sentences[0] || 'Puedes leer el contenido completo arriba para más detalles.'}`;
+			}
+
+			if (chatSend && chatInput && chatResponse) {
+				chatSend.addEventListener('click', async () => {
+					const question = chatInput.value.trim();
+					if (!question) return;
+
+					chatResponse.innerHTML = '🤖 Analizando el artículo...';
+					chatResponse.classList.add('show');
+
+					await new Promise(resolve => setTimeout(resolve, 800));
+
+					const articleContent = getArticleContent();
+					const response = generateResponse(question, articleContent);
+
+					chatResponse.innerHTML = `<strong>Respuesta basada en este artículo:</strong><br><br>${response}`;
+				});
+
+				chatInput.addEventListener('keypress', (e) => {
+					if (e.key === 'Enter') {
+						chatSend.click();
+					}
+				});
+			}
+		</script>
+	</body>
+</html>

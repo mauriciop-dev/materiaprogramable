@@ -1,0 +1,48 @@
+﻿
+> materiaprogramable@0.0.1 build
+> astro build
+
+[2m23:12:22[22m [34m[content][39m Syncing content
+[2m23:12:22[22m [34m[content][39m Synced content
+[2m23:12:22[22m [34m[types][39m Generated [2m784ms[22m
+[2m23:12:22[22m [34m[build][39m output: [34m"static"[39m
+[2m23:12:22[22m [34m[build][39m mode: [34m"static"[39m
+[2m23:12:22[22m [34m[build][39m directory: [34mC:\Users\micnu\OneDrive\PROYECTOS\MateriaProgramable\materiaprogramable\dist\[39m
+[2m23:12:22[22m [34m[build][39m Collecting build info...
+[2m23:12:22[22m [34m[build][39m [32mÔ£ô Completed in 817ms.[39m
+[2m23:12:22[22m [34m[build][39m Building static entrypoints...
+node.exe : [31m[1m23:12:23[22m [ERROR] [vite][39m 
+[31mÔ£ù[39m Build failed in 313ms
+En línea: 1 Carácter: 1
++ & "C:\Program Files\nodejs/node.exe" "C:\Program 
+Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([31m[1m23: 
+   12:...failed in 313ms:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[31m[ImageNotFound][39m [astro:assets:esm] Could not 
+load /images/actualidad_hero_1775275604604.png?astroConten
+tImageFlag (imported by .astro/content-assets.mjs): Could 
+not find requested image 
+`/images/actualidad_hero_1775275604604.png`. Does it 
+exist?
+  [1mHint:[22m
+[33m    This is often caused by a typo in the image 
+path. Please make sure the file exists, and is spelled 
+correctly.[39m
+  [1mError reference:[22m
+    [36m[4mhttps://docs.astro.build/en/reference/errors/
+image-not-found/[24m[39m
+  [1mLocation:[22m
+    [4mC:\Users\micnu\OneDrive\PROYECTOS\MateriaProgramab
+le\materiaprogramable\node_modules\astro\dist\assets\vite-
+plugin-assets.js:245:19[24m
+  [1mStack trace:[22m
+[2m    at Object.handler (file:///C:/Users/micnu/OneDrive
+/PROYECTOS/MateriaProgramable/materiaprogramable/node_modu
+les/astro/dist/assets/vite-plugin-assets.js:245:19)
+    at async file:///C:/Users/micnu/OneDrive/PROYECTOS/Mat
+eriaProgramable/materiaprogramable/node_modules/rollup/dis
+t/es/shared/node-entry.js:21833:33[22m
