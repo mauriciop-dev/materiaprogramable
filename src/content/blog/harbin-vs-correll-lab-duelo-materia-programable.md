@@ -51,16 +51,16 @@ Mientras tanto, en Colorado, el profesor Nikolaus Correll propone un camino dife
 | **Principal ventaja** | Capacidad de flujo y auto-reparación | Autonomía sensorial y estructural |
 | **Aplicación clave**| Medicina de precisión | Robótica autónoma y prótesis |
 
-## El Futuro: La Convergencia en Latinoamérica
+## Conclusión: Hacia una Síntesis de la Materia Inteligente
 
-La verdadera revolución para nuestra región no vendrá de elegir un bando, sino de la convergencia. En el **ILMP (Instituto Latinoamericano de Materia Programable)**, visualizamos un futuro donde los enjambres fluidos de Harbin se integren en las estructuras inteligentes de Correll.
+El contraste entre el Instituto de Tecnología de Harbin y el Correll Lab ilustra los dos pilares fundamentales de la materia programable contemporánea: la coordinación colectiva y la percepción integrada. Mientras que los avances en China demuestran que la inteligencia puede residir en la dinámica de un enjambre fluido, el trabajo en EE. UU. prueba que la estructura sólida puede dejar de ser pasiva para convertirse en un sistema sensorial autónomo.
 
-¿Podríamos crear materiales para la construcción que se auto-reparen usando micro-enjambres internos? ¿O prótesis de bajo costo en Colombia que sientan el tacto como lo hace el hardware de Colorado? La respuesta está en la investigación abierta y colaborativa que promovemos en este blog.
+La frontera final de esta disciplina no se encuentra en la victoria de un enfoque sobre el otro, sino en su hibridación. El desafío inmediato para la ingeniería global es desarrollar sistemas donde los micro-enjambres actúen como agentes de reparación y transporte dentro de estructuras macroscópicas que ya poseen "sentidos" propios. Lograr materiales que puedan simultáneamente fluir para adaptarse a su entorno y endurecerse para realizar tareas mecánicas complejas es, hoy por hoy, el "Santo Grial" de la ciencia de materiales.
 
 ---
 
 ### Fuentes y Lectura Recomendada:
 
-* **Harbin HIT Research:** *Magnetic Micro/Nanorobots: From Individual Propagation to Swarm Control* (ACS Nano Journal).
-* **Correll Lab:** *Material Robotics* por Nikolaus Correll (ResearchGate / Science Robotics).
-* **Teoría General:** *Programmable matter: A review* (Nature Reviews Materials).
+* **Harbin HIT Research:** *Magnetic Micro/Nanorobots: From Individual Propagation to Swarm Control* (ACS Nano Journal). [Leer artículo](https://pubs.acs.org/doi/10.1021/acsnano.1c02135) | [Laboratorio del Dr. Hui Xie](http://homepage.hit.edu.cn/xiehui)
+* **Correll Lab:** *Material Robotics* por Nikolaus Correll (ResearchGate / Science Robotics). [Leer artículo](https://www.science.org/doi/10.1126/scirobotics.aat2510) | [Sitio Oficial](https://correll.cs.colorado.edu/)
+* **Teoría General:** *Programmable matter: A review* (Nature Reviews Materials). [Leer artículo](https://www.nature.com/articles/natrevmats20156)

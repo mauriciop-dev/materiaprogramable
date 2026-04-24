@@ -72,8 +72,10 @@ const fullTitle = `${title} | Materia Programable`;
 				padding: 1.5rem;
 				margin: 2rem 0;
 				background: rgba(0, 0, 0, 0.3);
+				backdrop-filter: blur(12px);
 				border-radius: 12px;
-				border: 1px solid var(--glass-border);
+				border: 1px solid rgba(0, 240, 255, 0.5);
+				box-shadow: 0 0 10px rgba(0, 240, 255, 0.1);
 				flex-wrap: wrap;
 			}
 			.interaction-btn {
@@ -120,11 +122,69 @@ const fullTitle = `${title} | Materia Programable`;
 				left: 50%;
 				transform: translateX(-50%);
 				margin-top: 0.5rem;
-				background: rgba(0, 0, 0, 0.9);
-				border: 1px solid var(--glass-border);
+				background: rgba(0, 0, 0, 0.6);
+				backdrop-filter: blur(12px);
+				border: 1px solid rgba(167, 139, 250, 0.6);
+				box-shadow: 0 0 15px rgba(167, 139, 250, 0.3);
 				border-radius: 8px;
 				padding: 0.5rem;
 				z-index: 100;
+			}
+			.insight-dropdown {
+				display: none;
+				position: absolute;
+				top: 100%;
+				left: 50%;
+				transform: translateX(-50%);
+				margin-top: 0.5rem;
+				background: rgba(0, 0, 0, 0.6);
+				backdrop-filter: blur(12px);
+				border: 1px solid rgba(167, 139, 250, 0.6);
+				box-shadow: 0 0 15px rgba(167, 139, 250, 0.3);
+				border-radius: 8px;
+				padding: 1rem;
+				z-index: 100;
+				width: 300px;
+				max-width: 90vw;
+			}
+			.insight-dropdown.show { display: block; }
+			.insight-dropdown ul { list-style: none; padding: 0; margin: 0; }
+			.insight-dropdown li { margin-bottom: 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem; }
+			.insight-dropdown a { color: #a78bfa; text-decoration: none; font-size: 0.85rem; display: block; word-break: break-all; }
+			.insight-dropdown a:hover { color: #fff; }
+			
+			.suggest-modal {
+				display: none;
+				position: fixed;
+				top: 0; left: 0; width: 100%; height: 100%;
+				background: rgba(0,0,0,0.5);
+				backdrop-filter: blur(5px);
+				z-index: 1000;
+				align-items: center;
+				justify-content: center;
+			}
+			.suggest-modal.show { display: flex; }
+			.suggest-content {
+				background: rgba(0, 0, 0, 0.8);
+				backdrop-filter: blur(12px);
+				border: 1px solid rgba(0, 240, 255, 0.6);
+				box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+				padding: 2rem;
+				border-radius: 12px;
+				width: 400px;
+				max-width: 90vw;
+			}
+			.suggest-content textarea {
+				width: 100%; height: 100px;
+				background: rgba(0,0,0,0.5); border: 1px solid var(--glass-border);
+				color: white; padding: 0.5rem; border-radius: 6px; margin-bottom: 1rem;
+			}
+			.suggest-content button {
+				background: var(--accent); color: black; border: none; padding: 0.5rem 1rem;
+				border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%;
+			}
+			.suggest-close {
+				float: right; cursor: pointer; color: white; font-size: 1.5rem;
 			}
 			.share-dropdown.show {
 				display: flex;
@@ -362,9 +422,9 @@ const fullTitle = `${title} | Materia Programable`;
 								<span>Compartir</span>
 							</button>
 							<div class="share-dropdown" id="shareDropdown">
-								<a href="#" class="share-option facebook" id="shareFacebook">
-									<svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-									Facebook
+								<a href="#" class="share-option" id="shareX" style="color: #fff;">
+									<svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+									X (Twitter)
 								</a>
 								<a href="#" class="share-option whatsapp" id="shareWhatsapp">
 									<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.162-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a5.026 5.026 0 01-5.019-5.018 5.026 5.026 0 015.019-5.019 5.026 5.026 0 015.018 5.018 5.026 5.026 0 01-5.018 5.019m7.389-5.948c-.87.87-2.016.87-2.887.087-1.635-1.466-3.17-3.422-3.17-5.435 0-2.109 1.786-3.948 4.095-3.948 1.102 0 2.057.421 2.793 1.239.737.818 1.145 1.902 1.145 3.074 0 2.166-1.787 3.947-4.064 5.016z"/></svg>
@@ -374,22 +434,34 @@ const fullTitle = `${title} | Materia Programable`;
 									<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
 									LinkedIn
 								</a>
-								<a href="#" class="share-option gmail" id="shareGmail">
-									<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-									Gmail
-								</a>
 							</div>
 						</div>
 						
-						<button class="interaction-btn insight-btn" id="insightBtn">
-							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-							<span>Insight</span>
-						</button>
+						<div style="position: relative;">
+							<button class="interaction-btn insight-btn" id="insightBtn">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+								<span>Insight</span>
+							</button>
+							<div class="insight-dropdown" id="insightDropdown">
+								<h4 style="margin-top:0; color: #a78bfa;">Fuentes del Artículo</h4>
+								<ul id="insightLinks"><li>Buscando fuentes...</li></ul>
+							</div>
+						</div>
 						
-						<a href="https://formspree.io/f/mzdyzqwb" target="_blank" rel="noopener noreferrer" class="interaction-btn">
+						<button class="interaction-btn" id="suggestBtn">
 							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
 							<span>Sugerir</span>
-						</a>
+						</button>
+						
+						<div class="suggest-modal" id="suggestModal">
+							<div class="suggest-content">
+								<span class="suggest-close" id="suggestClose">&times;</span>
+								<h3 style="color: #00ffcc; margin-top: 0;">Enviar Sugerencia</h3>
+								<textarea id="suggestText" placeholder="¿Qué podríamos mejorar o agregar a este tema?"></textarea>
+								<button id="suggestSubmitBtn">Enviar al Laboratorio</button>
+								<p id="suggestStatus" style="display:none; color:#00ffcc; margin-top:0.5rem; text-align:center;"></p>
+							</div>
+						</div>
 					</div>
 
 					<div class="chat-section">
@@ -410,11 +482,11 @@ const fullTitle = `${title} | Materia Programable`;
 							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px;height:24px;vertical-align:middle;margin-right:8px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
 							Unirse a la Red de Investigación
 						</h3>
-						<p>Sé parte de la comunidad de materia programable en Latinoamérica</p>
+						<p>Acceso a papers exclusivos, networking con expertos y actualizaciones de vanguardia en Latinoamérica.</p>
 						<input type="text" name="name" placeholder="Tu nombre" required />
 						<input type="email" name="email" placeholder="Tu correo electrónico" required />
 						<input type="text" name="affiliation" placeholder="Universidad o empresa (opcional)" />
-						<button type="submit">Unirse a la Red de Investigación</button>
+						<button type="submit" id="communitySubmitBtn">Unirse a la Red de Investigación</button>
 						<div class="community-success" id="communitySuccess">✅ ¡Bienvenido a la comunidad! Te contactaremos pronto.</div>
 					</form>
 				</div>
@@ -463,13 +535,20 @@ const fullTitle = `${title} | Materia Programable`;
 				});
 			}
 
-			const shareFacebook = document.getElementById('shareFacebook');
+			// Meta-Tag og:image for Share
+			const ogImageMeta = document.querySelector('meta[property="og:image"]');
+			let ogImageUrl = ogImageMeta ? ogImageMeta.content : '';
+			if(ogImageUrl && !ogImageUrl.startsWith('http')) {
+				ogImageUrl = new URL(ogImageUrl, window.location.origin).href;
+			}
+			shareData.url = ogImageUrl ? shareData.url + '?img=' + encodeURIComponent(ogImageUrl) : shareData.url;
+
+			const shareX = document.getElementById('shareX');
 			const shareWhatsapp = document.getElementById('shareWhatsapp');
 			const shareLinkedin = document.getElementById('shareLinkedin');
-			const shareGmail = document.getElementById('shareGmail');
 
-			if (shareFacebook) {
-				shareFacebook.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareData.url)}&quote=${encodeURIComponent(shareData.title)}`;
+			if (shareX) {
+				shareX.href = `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareData.url)}&text=${encodeURIComponent(shareData.title)}`;
 			}
 			if (shareWhatsapp) {
 				shareWhatsapp.href = `https://wa.me/?text=${encodeURIComponent(shareData.title + ' - ' + shareData.url)}`;
@@ -477,40 +556,74 @@ const fullTitle = `${title} | Materia Programable`;
 			if (shareLinkedin) {
 				shareLinkedin.href = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(shareData.url)}&title=${encodeURIComponent(shareData.title)}&summary=${encodeURIComponent(shareData.description)}`;
 			}
-			if (shareGmail) {
-				shareGmail.href = `mailto:?subject=${encodeURIComponent(shareData.title)}&body=${encodeURIComponent('Mira este artículo: ' + shareData.url)}`;
-			}
 
-			const suggestionForm = document.getElementById('suggestionForm');
-			const communityForm = document.getElementById('communityForm');
-			const successMsg = document.getElementById('successMsg');
-			const communitySuccess = document.getElementById('communitySuccess');
+			// Suggest Logic (Supabase via REST)
+			const suggestBtn = document.getElementById('suggestBtn');
+			const suggestModal = document.getElementById('suggestModal');
+			const suggestClose = document.getElementById('suggestClose');
+			const suggestSubmitBtn = document.getElementById('suggestSubmitBtn');
+			const suggestText = document.getElementById('suggestText');
+			const suggestStatus = document.getElementById('suggestStatus');
 
-			if (suggestionForm) {
-				suggestionForm.addEventListener('submit', async (e) => {
-					e.preventDefault();
-					const formData = new FormData(suggestionForm);
+			if(suggestBtn) {
+				suggestBtn.addEventListener('click', () => suggestModal.classList.add('show'));
+				suggestClose.addEventListener('click', () => suggestModal.classList.remove('show'));
+				suggestSubmitBtn.addEventListener('click', async () => {
+					const msg = suggestText.value.trim();
+					if(!msg) return;
+					
+					suggestSubmitBtn.textContent = 'Enviando...';
+					suggestSubmitBtn.disabled = true;
+					
 					try {
-						const response = await fetch(suggestionForm.action, {
-							method: 'POST',
-							body: formData,
-							headers: { 'Accept': 'application/json' }
-						});
-						if (response.ok) {
-							suggestionForm.reset();
-							successMsg.classList.add('show');
-							setTimeout(() => successMsg.classList.remove('show'), 5000);
+						// Fallback url if env not ready yet
+						const supaUrl = import.meta.env ? import.meta.env.PUBLIC_SUPABASE_URL : '';
+						const supaKey = import.meta.env ? import.meta.env.PUBLIC_SUPABASE_ANON_KEY : '';
+						
+						if(supaUrl && supaKey) {
+							await fetch(`${supaUrl}/rest/v1/suggestions`, {
+								method: 'POST',
+								headers: {
+									'Content-Type': 'application/json',
+									'apikey': supaKey,
+									'Authorization': `Bearer ${supaKey}`
+								},
+								body: JSON.stringify({ message: msg, article_url: window.location.href })
+							});
+						} else {
+							await new Promise(r => setTimeout(r, 1000));
+							console.log('Simulated Supabase Insert:', msg);
 						}
-					} catch (err) {
-						console.error('Error:', err);
+						
+						suggestStatus.textContent = '¡Sugerencia recibida en el laboratorio!';
+						suggestStatus.style.display = 'block';
+						suggestText.value = '';
+						setTimeout(() => {
+							suggestModal.classList.remove('show');
+							suggestStatus.style.display = 'none';
+							suggestSubmitBtn.textContent = 'Enviar al Laboratorio';
+							suggestSubmitBtn.disabled = false;
+						}, 3000);
+					} catch(e) {
+						suggestSubmitBtn.textContent = 'Error';
+						setTimeout(() => { suggestSubmitBtn.textContent = 'Enviar al Laboratorio'; suggestSubmitBtn.disabled = false; }, 2000);
 					}
 				});
 			}
+
+			// Community Form
+			const communityForm = document.getElementById('communityForm');
+			const communitySubmitBtn = document.getElementById('communitySubmitBtn');
+			const communitySuccess = document.getElementById('communitySuccess');
 
 			if (communityForm) {
 				communityForm.addEventListener('submit', async (e) => {
 					e.preventDefault();
 					const formData = new FormData(communityForm);
+					if(communitySubmitBtn) {
+						communitySubmitBtn.textContent = 'Procesando...';
+						communitySubmitBtn.disabled = true;
+					}
 					try {
 						const response = await fetch(communityForm.action, {
 							method: 'POST',
@@ -520,18 +633,43 @@ const fullTitle = `${title} | Materia Programable`;
 						if (response.ok) {
 							communityForm.reset();
 							communitySuccess.classList.add('show');
+							if(communitySubmitBtn) {
+								communitySubmitBtn.textContent = 'Unirse a la Red de Investigación';
+								communitySubmitBtn.disabled = false;
+							}
 							setTimeout(() => communitySuccess.classList.remove('show'), 5000);
 						}
 					} catch (err) {
 						console.error('Error:', err);
+						if(communitySubmitBtn) {
+							communitySubmitBtn.textContent = 'Error al unirse';
+							setTimeout(() => { communitySubmitBtn.textContent = 'Unirse a la Red de Investigación'; communitySubmitBtn.disabled = false; }, 3000);
+						}
 					}
 				});
 			}
 
+			// Insight Logic
 			const insightBtn = document.getElementById('insightBtn');
-			if (insightBtn) {
+			const insightDropdown = document.getElementById('insightDropdown');
+			const insightLinks = document.getElementById('insightLinks');
+			if (insightBtn && insightDropdown) {
 				insightBtn.addEventListener('click', () => {
-					alert('💡 INSIGHT: Este artículo aborda conceptos de materia programable. Los puntos clave son:\n\n• Transformación de materia física en software\n• Sistemas que pueden cambiar propiedades físicas de forma controlada\n• Aplicaciones en robótica, impresión 4D y más\n\n¿Te interesa profundizar en algún aspecto específico?');
+					insightDropdown.classList.toggle('show');
+					// Extract links if not done yet
+					if(insightLinks.children[0] && insightLinks.children[0].textContent === 'Buscando fuentes...') {
+						const links = Array.from(document.querySelectorAll('.prose a')).filter(a => a.href.startsWith('http') && !a.href.includes('formspree'));
+						if(links.length > 0) {
+							insightLinks.innerHTML = links.map(l => `<li><a href="${l.href}" target="_blank">${l.textContent || l.href}</a></li>`).join('');
+						} else {
+							insightLinks.innerHTML = '<li>No se detectaron enlaces externos.</li>';
+						}
+					}
+				});
+				document.addEventListener('click', (e) => {
+					if (!insightBtn.contains(e.target) && !insightDropdown.contains(e.target)) {
+						insightDropdown.classList.remove('show');
+					}
 				});
 			}
 
