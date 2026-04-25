@@ -16,6 +16,12 @@ const fullTitle = `${title} | Materia Programable`;
 <html lang={Astro.url.pathname.includes('/blog/en/') ? 'en' : 'es'}>
 	<head>
 		<BaseHead title={fullTitle} description={description} ogImage={ogImage} />
+		<!-- SEO 2026 Meta Tags -->
+		<meta name="year" content="2026" />
+		<meta name="robots" content="index, follow" />
+		<meta name="theme-color" content="#00f0ff" />
+		<!-- FontAwesome CDN -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 		<script define:vars={{ currentUrl, fullTitle, description }}>
 			window.SHARE_DATA = {
 				url: currentUrl,
@@ -47,6 +53,13 @@ const fullTitle = `${title} | Materia Programable`;
 				background: rgba(0, 0, 0, 0.3);
 				border-radius: 12px;
 				border: 1px solid var(--glass-border);
+			}
+			.prose img, .img-fluid {
+				max-width: 100%;
+				height: auto;
+				border: 2px solid var(--neon-cyan, #00ffff);
+				border-radius: 8px;
+				box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
 			}
 			.title {
 				margin-bottom: 1em;
@@ -207,10 +220,9 @@ const fullTitle = `${title} | Materia Programable`;
 			.share-option.facebook { color: #1877f2; }
 			.share-option.whatsapp { color: #25d366; }
 			.share-option.linkedin { color: #0a66c2; }
-			.share-option.gmail { color: #ea4335; }
-			.share-option svg {
+			.share-option i {
 				width: 16px;
-				height: 16px;
+				text-align: center;
 			}
 			.suggestion-form {
 				display: none;
@@ -423,15 +435,15 @@ const fullTitle = `${title} | Materia Programable`;
 							</button>
 							<div class="share-dropdown" id="shareDropdown">
 								<a href="#" class="share-option" id="shareX" style="color: #fff;">
-									<svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+									<i class="fa-brands fa-x-twitter"></i>
 									X (Twitter)
 								</a>
 								<a href="#" class="share-option whatsapp" id="shareWhatsapp">
-									<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.162-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a5.026 5.026 0 01-5.019-5.018 5.026 5.026 0 015.019-5.019 5.026 5.026 0 015.018 5.018 5.026 5.026 0 01-5.018 5.019m7.389-5.948c-.87.87-2.016.87-2.887.087-1.635-1.466-3.17-3.422-3.17-5.435 0-2.109 1.786-3.948 4.095-3.948 1.102 0 2.057.421 2.793 1.239.737.818 1.145 1.902 1.145 3.074 0 2.166-1.787 3.947-4.064 5.016z"/></svg>
+									<i class="fa-brands fa-whatsapp"></i>
 									WhatsApp
 								</a>
 								<a href="#" class="share-option linkedin" id="shareLinkedin">
-									<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+									<i class="fa-brands fa-linkedin"></i>
 									LinkedIn
 								</a>
 							</div>
@@ -464,7 +476,7 @@ const fullTitle = `${title} | Materia Programable`;
 						</div>
 					</div>
 
-					<div class="chat-section">
+					<div class="chat-section" id="chat-article-container">
 						<h3>
 							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px;height:24px;vertical-align:middle;margin-right:8px;"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
 							Pregúntale al Artículo
@@ -658,11 +670,16 @@ const fullTitle = `${title} | Materia Programable`;
 					insightDropdown.classList.toggle('show');
 					// Extract links if not done yet
 					if(insightLinks.children[0] && insightLinks.children[0].textContent === 'Buscando fuentes...') {
-						const links = Array.from(document.querySelectorAll('.prose a')).filter(a => a.href.startsWith('http') && !a.href.includes('formspree'));
+						const links = Array.from(document.querySelectorAll('.reference-link'));
 						if(links.length > 0) {
-							insightLinks.innerHTML = links.map(l => `<li><a href="${l.href}" target="_blank">${l.textContent || l.href}</a></li>`).join('');
+							insightLinks.innerHTML = links.map(l => {
+								let metaData = '';
+								if(l.href.includes('s41567-026-03226-2')) metaData = '<br><span style="font-size:0.75rem; color:#8b5cf6;">Nature Physics (2026) - Autonomous microrobots</span>';
+								if(l.href.includes('adp7821')) metaData = '<br><span style="font-size:0.75rem; color:#8b5cf6;">Science Robotics (2026) - Microelectronic circuits</span>';
+								return `<li style="padding: 0.5rem; background: rgba(255,255,255,0.05); border-radius: 4px; margin-bottom: 0.5rem;"><a href="${l.href}" target="_blank" style="font-weight:bold;">${l.textContent || l.href}</a>${metaData}</li>`;
+							}).join('');
 						} else {
-							insightLinks.innerHTML = '<li>No se detectaron enlaces externos.</li>';
+							insightLinks.innerHTML = '<li>No se detectaron referencias (clase .reference-link).</li>';
 						}
 					}
 				});

@@ -35,18 +35,19 @@ const {
   const container = document.getElementById('article-canvas-container');
   if (!container) throw new Error('Canvas container not found');
 
-  // Get params from data attributes
+  // Get params from data attributes or global window object
+  const globalParams = window.ARTICLE_ANIM_PARAMS || {};
   const params = {
-    theme: container.dataset.theme || 'sci-fi',
-    primary: new THREE.Color(container.dataset.primary || '#00ffff'),
-    secondary: new THREE.Color(container.dataset.secondary || '#8b5cf6'),
-    count: parseInt(container.dataset.count) || 1500,
-    shape: container.dataset.shape || 'particles',
-    movement: container.dataset.movement || 'floating',
-    speed: parseFloat(container.dataset.speed) || 1.0,
-    interaction: container.dataset.interaction || 'mouse',
-    camera: container.dataset.camera || 'auto-rotate',
-    effects: container.dataset.effects || 'glow'
+    theme: globalParams.theme || container.dataset.theme || 'sci-fi',
+    primary: new THREE.Color(globalParams.primaryColor || container.dataset.primary || '#00ffff'),
+    secondary: new THREE.Color(globalParams.secondaryColor || container.dataset.secondary || '#8b5cf6'),
+    count: parseInt(globalParams.particleCount || container.dataset.count) || 1500,
+    shape: globalParams.shape || container.dataset.shape || 'particles',
+    movement: globalParams.movement || container.dataset.movement || 'floating',
+    speed: parseFloat(globalParams.speed || container.dataset.speed) || 1.0,
+    interaction: globalParams.interaction || container.dataset.interaction || 'mouse',
+    camera: globalParams.cameraMode || container.dataset.camera || 'auto-rotate',
+    effects: globalParams.specialEffects || container.dataset.effects || 'glow'
   };
 
   // Scene setup
@@ -56,16 +57,50 @@ const {
   const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
   camera.position.z = 40;
 
+  // Add Lights for MeshStandardMaterial (used in boids)
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+  scene.add(ambientLight);
+  const pointLight = new THREE.PointLight(params.primary, 2, 100);
+  pointLight.position.set(0, 0, 20);
+  scene.add(pointLight);
+
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   container.appendChild(renderer.domElement);
 
   // Create particles based on shape
-  let particles, geometry, positions, colors;
+  let particles, geometry, positions, colors, instancedMesh, boidsVelocities;
 
   function createParticles() {
     const count = params.count;
+    
+    if (params.shape === 'boids') {
+      const boxGeo = new THREE.BoxGeometry(0.1, 0.1, 0.1);
+      const computedCyan = getComputedStyle(document.body).getPropertyValue('--neon-cyan').trim() || '#00ffff';
+      const boxMat = new THREE.MeshStandardMaterial({ 
+        color: computedCyan, 
+        roughness: 0.2, 
+        metalness: 0.8,
+        emissive: new THREE.Color(computedCyan).multiplyScalar(0.2)
+      });
+      instancedMesh = new THREE.InstancedMesh(boxGeo, boxMat, count);
+      boidsVelocities = new Float32Array(count * 3);
+      
+      const dummy = new THREE.Object3D();
+      for (let i = 0; i < count; i++) {
+        dummy.position.set((Math.random() - 0.5) * 30, (Math.random() - 0.5) * 30, (Math.random() - 0.5) * 30);
+        dummy.updateMatrix();
+        instancedMesh.setMatrixAt(i, dummy.matrix);
+        
+        boidsVelocities[i*3] = (Math.random() - 0.5) * 0.2;
+        boidsVelocities[i*3+1] = (Math.random() - 0.5) * 0.2;
+        boidsVelocities[i*3+2] = (Math.random() - 0.5) * 0.2;
+      }
+      scene.add(instancedMesh);
+      return;
+    }
+
     geometry = new THREE.BufferGeometry();
     positions = new Float32Array(count * 3);
     colors = new Float32Array(count * 3);
@@ -181,6 +216,9 @@ const {
   // Animation
   const clock = new THREE.Clock();
   let frame = 0;
+  const dummy = new THREE.Object3D();
+  const mat4 = new THREE.Matrix4();
+  const vec3 = new THREE.Vector3();
 
   function animate() {
     const elapsed = clock.getElapsedTime();
@@ -192,36 +230,77 @@ const {
 
     // Movement patterns
     const speedMult = params.speed;
-    const posArray = geometry.attributes.position.array;
+    
+    if (params.shape === 'boids' && instancedMesh) {
+      for (let i = 0; i < params.count; i++) {
+        instancedMesh.getMatrixAt(i, mat4);
+        vec3.setFromMatrixPosition(mat4);
+        
+        const i3 = i * 3;
+        // Boids simplified: move towards center slightly (cohesion), separate if too close, add noise
+        let centerDirX = -vec3.x * 0.001;
+        let centerDirY = -vec3.y * 0.001;
+        let centerDirZ = -vec3.z * 0.001;
+        
+        // Mouse interaction for boids
+        if (params.interaction !== 'none') {
+            centerDirX += (targetX * 10 - vec3.x) * 0.005;
+            centerDirY += (targetY * 10 - vec3.y) * 0.005;
+        }
 
-    switch (params.movement) {
-      case 'pulsing':
-        const scale = 1 + Math.sin(elapsed * speedMult) * 0.1;
-        particles.scale.set(scale, scale, scale);
-        break;
-      case 'flowing':
-        for (let i = 0; i < params.count; i++) {
-          const i3 = i * 3;
-          posArray[i3 + 1] += Math.sin(elapsed + posArray[i3] * 0.1) * 0.02 * speedMult;
+        boidsVelocities[i3] += centerDirX + (Math.random() - 0.5) * 0.02;
+        boidsVelocities[i3+1] += centerDirY + (Math.random() - 0.5) * 0.02;
+        boidsVelocities[i3+2] += centerDirZ + (Math.random() - 0.5) * 0.02;
+        
+        // limit speed
+        const speedSq = boidsVelocities[i3]**2 + boidsVelocities[i3+1]**2 + boidsVelocities[i3+2]**2;
+        if (speedSq > 0.04) {
+          const m = 0.2 / Math.sqrt(speedSq);
+          boidsVelocities[i3] *= m; boidsVelocities[i3+1] *= m; boidsVelocities[i3+2] *= m;
         }
-        geometry.attributes.position.needsUpdate = true;
-        break;
-      case 'orbiting':
-        particles.rotation.y += 0.002 * speedMult;
-        particles.rotation.x += 0.001 * speedMult;
-        break;
-      case 'swarming':
-        posArray[0] += Math.sin(elapsed * 2) * 0.1;
-        posArray[1] += Math.cos(elapsed * 2) * 0.1;
-        geometry.attributes.position.needsUpdate = true;
-        break;
-      case 'floating':
-      default:
-        for (let i = 0; i < params.count; i++) {
-          const i3 = i * 3;
-          posArray[i3 + 1] += Math.sin(elapsed * 0.5 + i * 0.01) * 0.01 * speedMult;
-        }
-        geometry.attributes.position.needsUpdate = true;
+
+        vec3.x += boidsVelocities[i3] * speedMult;
+        vec3.y += boidsVelocities[i3+1] * speedMult;
+        vec3.z += boidsVelocities[i3+2] * speedMult;
+        
+        dummy.position.copy(vec3);
+        dummy.lookAt(vec3.x + boidsVelocities[i3], vec3.y + boidsVelocities[i3+1], vec3.z + boidsVelocities[i3+2]);
+        dummy.updateMatrix();
+        instancedMesh.setMatrixAt(i, dummy.matrix);
+      }
+      instancedMesh.instanceMatrix.needsUpdate = true;
+    } else if (geometry) {
+      const posArray = geometry.attributes.position.array;
+
+      switch (params.movement) {
+        case 'pulsing':
+          const scale = 1 + Math.sin(elapsed * speedMult) * 0.1;
+          particles.scale.set(scale, scale, scale);
+          break;
+        case 'flowing':
+          for (let i = 0; i < params.count; i++) {
+            const i3 = i * 3;
+            posArray[i3 + 1] += Math.sin(elapsed + posArray[i3] * 0.1) * 0.02 * speedMult;
+          }
+          geometry.attributes.position.needsUpdate = true;
+          break;
+        case 'orbiting':
+          particles.rotation.y += 0.002 * speedMult;
+          particles.rotation.x += 0.001 * speedMult;
+          break;
+        case 'swarming':
+          posArray[0] += Math.sin(elapsed * 2) * 0.1;
+          posArray[1] += Math.cos(elapsed * 2) * 0.1;
+          geometry.attributes.position.needsUpdate = true;
+          break;
+        case 'floating':
+        default:
+          for (let i = 0; i < params.count; i++) {
+            const i3 = i * 3;
+            posArray[i3 + 1] += Math.sin(elapsed * 0.5 + i * 0.01) * 0.01 * speedMult;
+          }
+          geometry.attributes.position.needsUpdate = true;
+      }
     }
 
     // Camera modes
@@ -230,8 +309,14 @@ const {
       camera.position.y = Math.cos(elapsed * 0.2) * 5;
       camera.lookAt(scene.position);
     } else if (params.camera === 'orbit') {
-      particles.rotation.y = targetX * 2;
-      particles.rotation.x = targetY * 2;
+      if (particles) {
+        particles.rotation.y = targetX * 2;
+        particles.rotation.x = targetY * 2;
+      }
+      if (instancedMesh) {
+        instancedMesh.rotation.y = targetX * 2;
+        instancedMesh.rotation.x = targetY * 2;
+      }
     }
 
     renderer.render(scene, camera);
