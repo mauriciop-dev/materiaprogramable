@@ -226,6 +226,12 @@ const fullTitle = `${title} | Materia Programable`;
 				margin-bottom: 1rem;
 				box-shadow: 0 0 10px rgba(0,240,255,0.2);
 			}
+			.share-icon-btn {
+				width: 40px; height: 40px; border-radius: 50%;
+				display: flex; align-items: center; justify-content: center;
+				cursor: pointer; font-size: 1.2rem; transition: transform 0.2s;
+			}
+			.share-icon-btn:hover { transform: translateY(-2px); }
 			.copy-btn {
 				background: var(--accent); color: black; border: none; padding: 0.8rem;
 				border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%;
@@ -447,6 +453,11 @@ const fullTitle = `${title} | Materia Programable`;
 									<h3 style="color: #00ffcc; margin-top: 0; margin-bottom: 1rem;">Compartir Artículo</h3>
 									<img src={ogImage ? `/media/${ogImage}` : heroImage} class="share-image" alt="Artículo" />
 									<p style="color: white; font-size: 0.9rem;">{title}</p>
+									<div style="display: flex; gap: 15px; justify-content: center; margin-top: 1rem;">
+										<button id="shareXModal" class="share-icon-btn" style="background:#000; color:#fff; border:1px solid #333;"><i class="fa-brands fa-x-twitter"></i></button>
+										<button id="shareWhatsappModal" class="share-icon-btn" style="background:#25d366; color:#fff; border:none;"><i class="fa-brands fa-whatsapp"></i></button>
+										<button id="shareLinkedinModal" class="share-icon-btn" style="background:#0a66c2; color:#fff; border:none;"><i class="fa-brands fa-linkedin"></i></button>
+									</div>
 									<button class="copy-btn" id="copyShareBtn">Copiar Enlace</button>
 								</div>
 							</div>
@@ -564,6 +575,18 @@ const fullTitle = `${title} | Materia Programable`;
 						});
 					});
 				}
+				
+				const openPopup = (url) => {
+					window.open(url, 'share-popup', 'width=600,height=500,scrollbars=yes,resizable=yes');
+				};
+
+				const shareXModal = document.getElementById('shareXModal');
+				const shareWhatsappModal = document.getElementById('shareWhatsappModal');
+				const shareLinkedinModal = document.getElementById('shareLinkedinModal');
+
+				if (shareXModal) shareXModal.addEventListener('click', () => openPopup(`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareData.url)}&text=${encodeURIComponent(shareData.title)}`));
+				if (shareWhatsappModal) shareWhatsappModal.addEventListener('click', () => openPopup(`https://wa.me/?text=${encodeURIComponent(shareData.title + ' - ' + shareData.url)}`));
+				if (shareLinkedinModal) shareLinkedinModal.addEventListener('click', () => openPopup(`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(shareData.url)}&title=${encodeURIComponent(shareData.title)}&summary=${encodeURIComponent(shareData.description)}`));
 			}
 
 			// Suggest Logic (Supabase via REST)
@@ -658,8 +681,12 @@ const fullTitle = `${title} | Materia Programable`;
 				insightBtn.addEventListener('click', () => {
 					insightDropdown.classList.toggle('show');
 					// Extract links if not done yet
-					if(insightLinks.children[0] && insightLinks.children[0].textContent === 'Buscando fuentes...') {
-						const links = Array.from(document.querySelectorAll('.reference-link'));
+					if(insightLinks.children[0] && insightLinks.children[0].textContent.includes('Buscando')) {
+						let links = Array.from(document.querySelectorAll('.reference-link'));
+						if(links.length === 0) {
+							links = Array.from(document.querySelectorAll('.prose a[href^="http"]')).filter(a => !a.href.includes(window.location.hostname));
+						}
+
 						if(links.length > 0) {
 							insightLinks.innerHTML = links.map(l => {
 								let metaData = '';
@@ -668,7 +695,7 @@ const fullTitle = `${title} | Materia Programable`;
 								return `<li style="padding: 0.5rem; background: rgba(255,255,255,0.05); border-radius: 4px; margin-bottom: 0.5rem;"><a href="${l.href}" target="_blank" style="font-weight:bold;">${l.textContent || l.href}</a>${metaData}</li>`;
 							}).join('');
 						} else {
-							insightLinks.innerHTML = '<li>No se detectaron referencias (clase .reference-link).</li>';
+							insightLinks.innerHTML = '<li>El artículo tiene enfoque introductorio. No se detectaron fuentes bibliográficas externas para listar en este momento.</li>';
 						}
 					}
 				});
