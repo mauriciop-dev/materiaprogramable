@@ -11,11 +11,14 @@ interface Props {
 	description: string;
 	image?: ImageMetadata;
 	ogImage?: string;
+	keywords?: string;
+	geoRegion?: string;
+	geoPlacename?: string;
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
-const { title, description, image = FallbackImage, ogImage } = Astro.props;
+const { title, description, image = FallbackImage, ogImage, keywords, geoRegion, geoPlacename } = Astro.props;
 
 const finalOgImage = ogImage ? `/media/${ogImage}` : image.src;
 ---
@@ -45,6 +48,9 @@ const finalOgImage = ogImage ? `/media/${ogImage}` : image.src;
 <title>{title}</title>
 <meta name="title" content={title} />
 <meta name="description" content={description} />
+{keywords && <meta name="keywords" content={keywords} />}
+{geoRegion && <meta name="geo.region" content={geoRegion} />}
+{geoPlacename && <meta name="geo.placename" content={geoPlacename} />}
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />

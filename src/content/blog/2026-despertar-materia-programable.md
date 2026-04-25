@@ -1,7 +1,10 @@
 ---
 title: '2026: El Despertar de la Materia Programable'
-description: 'De la Ciencia Ficción a la Infraestructura Global'
+description: 'Descubre cómo el año 2026 marca el inicio de la era de la IA Física y la robótica de enjambre. Analizamos la evolución desde circuitos CMOS hasta microrobots para infraestructuras globales, medicina de precisión y limpieza ambiental en Latinoamérica y el mundo.'
 pubDate: '2026-04-24'
+keywords: 'materia programable, IA física, robótica de enjambre, microrobots, tecnología 2026, ProDig, ILMP'
+geoRegion: 'AR, CL, CO, MX, PE, UY'
+geoPlacename: 'América Latina'
 animation:
   theme: 'sci-fi'
 ---

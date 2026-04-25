@@ -8,14 +8,14 @@ import ArticleCanvas from '../components/ArticleCanvas.astro';
 
 type Props = CollectionEntry<'blog'>['data'];
 
-const { title, description, pubDate, updatedDate, heroImage, animation, ogImage } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, animation, ogImage, keywords, geoRegion, geoPlacename } = Astro.props;
 const currentUrl = Astro.url.href;
 const fullTitle = `${title} | Materia Programable`;
 ---
 
 <html lang={Astro.url.pathname.includes('/blog/en/') ? 'en' : 'es'}>
 	<head>
-		<BaseHead title={fullTitle} description={description} ogImage={ogImage} />
+		<BaseHead title={fullTitle} description={description} ogImage={ogImage} keywords={keywords} geoRegion={geoRegion} geoPlacename={geoPlacename} />
 		<!-- SEO 2026 Meta Tags -->
 		<meta name="year" content="2026" />
 		<meta name="robots" content="index, follow" />
