@@ -150,7 +150,7 @@ const fullTitle = `${title} | Materia Programable`;
 				left: 50%;
 				transform: translateX(-50%);
 				margin-top: 0.5rem;
-				background: rgba(0, 0, 0, 0.6);
+				background: rgba(0, 0, 0, 0.95);
 				backdrop-filter: blur(12px);
 				border: 1px solid rgba(167, 139, 250, 0.6);
 				box-shadow: 0 0 15px rgba(167, 139, 250, 0.3);
@@ -199,31 +199,39 @@ const fullTitle = `${title} | Materia Programable`;
 			.suggest-close {
 				float: right; cursor: pointer; color: white; font-size: 1.5rem;
 			}
-			.share-dropdown.show {
-				display: flex;
-				flex-direction: column;
-				gap: 0.3rem;
-			}
-			.share-option {
-				display: flex;
+			.share-modal {
+				display: none;
+				position: fixed;
+				top: 0; left: 0; width: 100%; height: 100%;
+				background: rgba(0,0,0,0.6);
+				backdrop-filter: blur(8px);
+				z-index: 1000;
 				align-items: center;
-				gap: 0.5rem;
-				padding: 0.5rem 0.8rem;
-				border-radius: 6px;
-				text-decoration: none;
-				font-size: 0.8rem;
-				transition: background 0.2s;
+				justify-content: center;
 			}
-			.share-option:hover {
-				background: rgba(0, 240, 255, 0.1);
-			}
-			.share-option.facebook { color: #1877f2; }
-			.share-option.whatsapp { color: #25d366; }
-			.share-option.linkedin { color: #0a66c2; }
-			.share-option i {
-				width: 16px;
+			.share-modal.show { display: flex; }
+			.share-content {
+				background: rgba(0, 0, 0, 0.95);
+				border: 1px solid rgba(0, 240, 255, 0.6);
+				box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+				padding: 2rem;
+				border-radius: 12px;
+				width: 400px;
+				max-width: 90vw;
 				text-align: center;
 			}
+			.share-image {
+				width: 100%;
+				border-radius: 8px;
+				margin-bottom: 1rem;
+				box-shadow: 0 0 10px rgba(0,240,255,0.2);
+			}
+			.copy-btn {
+				background: var(--accent); color: black; border: none; padding: 0.8rem;
+				border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%;
+				margin-top: 1rem;
+			}
+
 			.suggestion-form {
 				display: none;
 				margin-top: 1rem;
@@ -428,24 +436,19 @@ const fullTitle = `${title} | Materia Programable`;
 							<span id="likeText">Me gusta</span>
 						</button>
 						
-						<div class="share-menu">
+						<div>
 							<button class="interaction-btn" id="shareBtn">
 								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
 								<span>Compartir</span>
 							</button>
-							<div class="share-dropdown" id="shareDropdown">
-								<a href="#" class="share-option" id="shareX" style="color: #fff;">
-									<i class="fa-brands fa-x-twitter"></i>
-									X (Twitter)
-								</a>
-								<a href="#" class="share-option whatsapp" id="shareWhatsapp">
-									<i class="fa-brands fa-whatsapp"></i>
-									WhatsApp
-								</a>
-								<a href="#" class="share-option linkedin" id="shareLinkedin">
-									<i class="fa-brands fa-linkedin"></i>
-									LinkedIn
-								</a>
+							<div class="share-modal" id="shareModal">
+								<div class="share-content">
+									<span class="suggest-close" id="shareClose">&times;</span>
+									<h3 style="color: #00ffcc; margin-top: 0; margin-bottom: 1rem;">Compartir Artículo</h3>
+									<img src={ogImage ? `/media/${ogImage}` : heroImage} class="share-image" alt="Artículo" />
+									<p style="color: white; font-size: 0.9rem;">{title}</p>
+									<button class="copy-btn" id="copyShareBtn">Copiar Enlace</button>
+								</div>
 							</div>
 						</div>
 						
@@ -507,17 +510,26 @@ const fullTitle = `${title} | Materia Programable`;
 		<Footer />
 
 		<script>
+			const slug = window.location.pathname.replace(/\//g, '') || 'home';
+			const hash = slug.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+			const baseCount = (hash % 80) + 20;
+
 			const likeBtn = document.getElementById('likeBtn');
 			const likeCount = document.getElementById('likeCount');
 			const likeText = document.getElementById('likeText');
-			let liked = false;
-			let likeCounter = Math.floor(Math.random() * 50) + 10;
+			let liked = localStorage.getItem(`liked_${slug}`) === 'true';
+			let likeCounter = liked ? baseCount + 1 : baseCount;
 			
 			if (likeCount) likeCount.textContent = likeCounter.toString();
+			if (liked && likeBtn) {
+				likeBtn.classList.add('liked');
+				if (likeText) likeText.textContent = 'Te gusta';
+			}
 			
 			if (likeBtn) {
 				likeBtn.addEventListener('click', () => {
 					liked = !liked;
+					localStorage.setItem(`liked_${slug}`, liked.toString());
 					if (liked) {
 						likeCounter++;
 						if (likeText) likeText.textContent = 'Te gusta';
@@ -531,42 +543,27 @@ const fullTitle = `${title} | Materia Programable`;
 			}
 
 			const shareBtn = document.getElementById('shareBtn');
-			const shareDropdown = document.getElementById('shareDropdown');
+			const shareModal = document.getElementById('shareModal');
+			const shareClose = document.getElementById('shareClose');
+			const copyShareBtn = document.getElementById('copyShareBtn');
 			const shareData = window.SHARE_DATA || { url: window.location.href, title: document.title, description: '' };
 
-			if (shareBtn && shareDropdown) {
+			if (shareBtn && shareModal) {
 				shareBtn.addEventListener('click', (e) => {
 					e.preventDefault();
-					shareDropdown.classList.toggle('show');
+					shareModal.classList.add('show');
 				});
-
-				document.addEventListener('click', (e) => {
-					if (!shareBtn.contains(e.target) && !shareDropdown.contains(e.target)) {
-						shareDropdown.classList.remove('show');
-					}
+				shareClose.addEventListener('click', () => {
+					shareModal.classList.remove('show');
+					if(copyShareBtn) copyShareBtn.textContent = 'Copiar Enlace';
 				});
-			}
-
-			// Meta-Tag og:image for Share
-			const ogImageMeta = document.querySelector('meta[property="og:image"]');
-			let ogImageUrl = ogImageMeta ? ogImageMeta.content : '';
-			if(ogImageUrl && !ogImageUrl.startsWith('http')) {
-				ogImageUrl = new URL(ogImageUrl, window.location.origin).href;
-			}
-			shareData.url = ogImageUrl ? shareData.url + '?img=' + encodeURIComponent(ogImageUrl) : shareData.url;
-
-			const shareX = document.getElementById('shareX');
-			const shareWhatsapp = document.getElementById('shareWhatsapp');
-			const shareLinkedin = document.getElementById('shareLinkedin');
-
-			if (shareX) {
-				shareX.href = `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareData.url)}&text=${encodeURIComponent(shareData.title)}`;
-			}
-			if (shareWhatsapp) {
-				shareWhatsapp.href = `https://wa.me/?text=${encodeURIComponent(shareData.title + ' - ' + shareData.url)}`;
-			}
-			if (shareLinkedin) {
-				shareLinkedin.href = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(shareData.url)}&title=${encodeURIComponent(shareData.title)}&summary=${encodeURIComponent(shareData.description)}`;
+				if(copyShareBtn) {
+					copyShareBtn.addEventListener('click', () => {
+						navigator.clipboard.writeText(`${shareData.title}\n${shareData.url}`).then(() => {
+							copyShareBtn.textContent = '¡Copiado!';
+						});
+					});
+				}
 			}
 
 			// Suggest Logic (Supabase via REST)
@@ -588,26 +585,18 @@ const fullTitle = `${title} | Materia Programable`;
 					suggestSubmitBtn.disabled = true;
 					
 					try {
-						// Fallback url if env not ready yet
-						const supaUrl = import.meta.env ? import.meta.env.PUBLIC_SUPABASE_URL : '';
-						const supaKey = import.meta.env ? import.meta.env.PUBLIC_SUPABASE_ANON_KEY : '';
+						const formData = new FormData();
+						formData.append('message', msg);
+						formData.append('article_url', window.location.href);
+						formData.append('form_type', 'suggestion');
 						
-						if(supaUrl && supaKey) {
-							await fetch(`${supaUrl}/rest/v1/suggestions`, {
-								method: 'POST',
-								headers: {
-									'Content-Type': 'application/json',
-									'apikey': supaKey,
-									'Authorization': `Bearer ${supaKey}`
-								},
-								body: JSON.stringify({ message: msg, article_url: window.location.href })
-							});
-						} else {
-							await new Promise(r => setTimeout(r, 1000));
-							console.log('Simulated Supabase Insert:', msg);
-						}
+						await fetch('https://formspree.io/f/mzdyzqwb', {
+							method: 'POST',
+							body: formData,
+							headers: { 'Accept': 'application/json' }
+						});
 						
-						suggestStatus.textContent = '¡Sugerencia recibida en el laboratorio!';
+						suggestStatus.textContent = '¡Sugerencia enviada!';
 						suggestStatus.style.display = 'block';
 						suggestText.value = '';
 						setTimeout(() => {
@@ -704,47 +693,27 @@ const fullTitle = `${title} | Materia Programable`;
 
 			function generateResponse(question, content) {
 				const q = question.toLowerCase();
-				const sentences = content.split(/[.!?]+/).filter(s => s.trim().length > 20);
+				const sentences = content.split(/[.!?\n]+/).filter(s => s.trim().length > 20);
 				
-				const questionPatterns = {
-					'diferencia': () => {
-						const robotKeywords = ['robotica tradicional', 'un solo robot', 'una tarea'];
-						const mpKeywords = ['materia programable', 'enjambre', 'sistemas distribuidos', 'cooperacion masiva', 'unidades minimas'];
-						
-						const robotSentences = sentences.filter(s => 
-							robotKeywords.some(k => s.toLowerCase().includes(k))
-						);
-						const mpSentences = sentences.filter(s => 
-							mpKeywords.some(k => s.toLowerCase().includes(k))
-						);
-						
-						if (robotSentences.length > 0 && mpSentences.length > 0) {
-							return `La principal diferencia es que la <strong>robótica tradicional</strong> consiste en robots individuales que cumplen una tarea específica, mientras que la <strong>materia programable</strong> se basa en inteligencia de enjambre y sistemas distribuidos donde miles de unidades mínimas trabajan cooperando para crear objetos emergentes. ${mpSentences[0]}`;
-						}
-						return sentences[0] || '';
-					},
-					'que es': () => {
-						const match = content.match(/materia programable[^.]+/i);
-						return match ? match[0].substring(0, 300) + '.' : sentences[0];
-					},
-					'resumen': () => {
-						return sentences.slice(0, 2).join('. ') + '.';
-					}
-				};
+				const words = q.match(/\w+/g) || [];
+				const ignore = ['el','la','los','las','un','una','que','de','en','para','por','como','es','del','con','las','los','se'];
+				const keywords = words.filter(w => w.length > 3 && !ignore.includes(w));
 
-				for (const [pattern, handler] of Object.entries(questionPatterns)) {
-					if (q.includes(pattern)) {
-						const response = handler(content);
-						if (response) return response;
-					}
-				}
+				let bestSentence = '';
+				let maxScore = 0;
 
-				const randomSentences = sentences.sort(() => 0.5 - Math.random()).slice(0, 2);
-				if (randomSentences.length > 0) {
-					return randomSentences.join('. ') + '.';
+				sentences.forEach(s => {
+					let score = 0;
+					const sLower = s.toLowerCase();
+					keywords.forEach(k => { if(sLower.includes(k)) score++; });
+					if(score > maxScore) { maxScore = score; bestSentence = s.trim(); }
+				});
+
+				if (maxScore > 0) {
+					return `Encontré esto en el artículo: <br><br><em>"${bestSentence}."</em>`;
 				}
 				
-				return `Este artículo trata sobre materia programable. ${sentences[0] || 'Puedes leer el contenido completo arriba para más detalles.'}`;
+				return `Este artículo trata sobre materia programable. El contenido menciona: "${sentences[0] || 'Puedes leer el texto completo para más detalles.'}"`;
 			}
 
 			if (chatSend && chatInput && chatResponse) {

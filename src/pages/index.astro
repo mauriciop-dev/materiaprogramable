@@ -9,22 +9,6 @@ import { getCollection } from 'astro:content';
 const posts = (await getCollection('blog'))
 	.filter((post) => !post.id.startsWith('en/'))
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-
-const categorias = {
-    'fundamentos': { title: 'Átomos vs. Bits (Fundamentos)', desc: 'Educación y conceptos base de programación de la materia.' },
-    'actualidad': { title: 'Frontera Tecnológica', desc: 'Resúmenes de avances, papers y noticias de laboratorios.' },
-    'investigacion': { title: 'Investigación y Laboratorios', desc: 'Proyectos de investigación avanzada y laboratorios punteros.' },
-    'casos-de-uso': { title: 'El Futuro Diseñado', desc: 'Casos inspiracionales de aplicación en industrias reales.' },
-    'opinion': { title: 'Laboratorio de Ideas', desc: 'Debates éticos, impacto sociológico y filosofía de la materia inteligente.' }
-};
-
-const groupedPosts = {
-    'fundamentos': posts.filter(post => post.data.category === 'fundamentos'),
-    'actualidad': posts.filter(post => post.data.category === 'actualidad'),
-    'investigacion': posts.filter(post => post.data.category === 'investigacion'),
-    'casos-de-uso': posts.filter(post => post.data.category === 'casos-de-uso'),
-    'opinion': posts.filter(post => post.data.category === 'opinion'),
-};
 ---
 
 <!doctype html>
@@ -104,37 +88,27 @@ const groupedPosts = {
                 </div>
             </section>
 
-            {Object.entries(categorias).map(([key, info]) => (
-                <section class="category-section">
-                    <h2>{info.title}</h2>
-                    <p class="category-desc">{info.desc}</p>
-                    
-                    {groupedPosts[key as keyof typeof groupedPosts].length > 0 ? (
-                        <div class="post-grid">
-                            {groupedPosts[key as keyof typeof groupedPosts].map((post) => (
-                                <a href={`/blog/${post.id}/`} class="glass-panel post-card">
-                                    {post.data.heroImage && <img src={post.data.heroImage} alt="" />}
-                                    <h4>{post.data.title}</h4>
-                                    <span class="date">
-                                        <time datetime={post.data.pubDate.toISOString()}>
-                                            {post.data.pubDate.toLocaleDateString('es-es', {
-                                                year: 'numeric',
-                                                month: 'short',
-                                                day: 'numeric',
-                                            })}
-                                        </time>
-                                    </span>
-                                    <p>{post.data.description}</p>
-                                </a>
-                            ))}
-                        </div>
-                    ) : (
-                        <div class="empty-state glass-panel" style="padding:1rem;">
-                            <p style="margin:0; font-size:0.9rem;">Próximamente: Archivos en encriptación...</p>
-                        </div>
-                    )}
-                </section>
-            ))}
+            <section class="category-section">
+                <h2>Últimas Investigaciones</h2>
+                <div class="post-grid">
+                    {posts.map((post) => (
+                        <a href={`/blog/${post.id}/`} class="glass-panel post-card">
+                            {post.data.heroImage && <img src={post.data.heroImage} alt="" />}
+                            <h4>{post.data.title}</h4>
+                            <span class="date">
+                                <time datetime={post.data.pubDate.toISOString()}>
+                                    {post.data.pubDate.toLocaleDateString('es-es', {
+                                        year: 'numeric',
+                                        month: 'short',
+                                        day: 'numeric',
+                                    })}
+                                </time>
+                            </span>
+                            <p>{post.data.description}</p>
+                        </a>
+                    ))}
+                </div>
+            </section>
 		</main>
 		<Footer />
 	</body>
