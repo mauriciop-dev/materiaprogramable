@@ -1,7 +1,7 @@
 ---
 title: 'Quantum Programmable Matter: Designing Reality from the Molecular Block'
  description: 'Explore how designer molecules can act as qubits and structural actuators, redefining programmable matter.'
- pubDate: 2026-05-17
+ pubDate: new Date(2026,4,17)
  ogImage: 'og-quantum-matter.jpeg'
  ---
 
