@@ -2,7 +2,7 @@
 title: 'Enjambres de Materia: El Duelo Tecnológico entre Harbin y Correll Lab'
 description: 'Un análisis comparativo del duelo tecnológico entre China y EE.UU.: los microrobots fluidos de Harbin frente a la materia estructurada y consciente del Correll Lab.'
 pubDate: '2026-04-24'
-ogImage: '/media/og-robotics.jpg'
+ogImage: 'og-robotics1.jpeg'
 animation:
   theme: 'sci-fi'
   primaryColor: '#00ffcc'

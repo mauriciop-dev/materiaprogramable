@@ -1,1 +1,8 @@
-https://materiaprogramable.com/* https://www.materiaprogramable.com/:slug 301
+# Redirect non-www to www
+https://materiaprogramable.com/* https://www.materiaprogramable.com/:splat 301
+
+# Old WordPress/Jekyll URLs - redirect to homepage
+/2025/* / 301
+
+# Fix broken slug from .es.md naming
+/blog/programmable-matter-introductiones/ /blog/la-materia-como-software-realidad-reconfigurable/ 301
