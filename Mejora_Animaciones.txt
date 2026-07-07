@@ -1,0 +1,307 @@
+recuerdas que en un chat, estabamos hablando de una tecnologia como tree.js pero una mejora que habian hecho en China creo y que vimos una pagina con una animacion que la usabqa, recuerdas la pagina y el nombre de las tecnologias
+
+¡Sí, claro! Te refieres a una de estas dos potentes alternativas desarrolladas en China que se presentan como la evolución o mejora frente a Three.js:
+
+1. Orillusion
+Es un motor 3D ligero desarrollado en China basado de forma nativa y pura en el estándar WebGPU (la tecnología moderna que reemplaza al WebGL tradicional que usa Three.js). Está diseñado para lograr efectos de renderizado de alta fidelidad directamente en el navegador con un rendimiento altísimo, ideal para simulaciones físicas y sistemas de partículas complejos mediante shaders de computación.
+
+Sitio web: orillusion.com
+
+2. Galacean Engine (antes Oasis Engine)
+Desarrollado por Ant Group (la filial tecnológica de Alibaba). Es un motor interactivo en TypeScript enfocado en la web y dispositivos móviles. A diferencia de Three.js, incluye un flujo de trabajo estructurado por componentes (ECS) y su propio editor visual en línea, optimizado para animaciones fluidas, interfaces interactivas y gemelos digitales.
+
+Sitio web: galacean.antgroup.com
+
+para nuestro sitio https://materiaprogramable.com siempre estoy buscando la forma de poner lo mejor de la tecnologia si sacrificar calidad. por eso para cada post del blog no uso imagenes, por que habria que generarlas, segun el articulo y el proceso se complejiza mas. por eso opte por una animacion standar en realidad son somo 15 animaciones con tree.js que se ajustan al contenido del articulo, pero en realidad sigun siendo un poco puntos que se mueven levemente detras del texto. entonces siguiendo la idea de no poner una imagen ocn cada articulo, siempre exploro nuevas tecnologias de animacion para poder ejemplificar o explicar cada articulo, por que como los temas de materia programable son complejos, la idea es que todo colabore para que el usuario entienda lo que esta leyendo. si me hago entender. entonces quiero probar tecnologias, pero que hagan todo mas facil, que no hagan que se rompa el sitio web o que demore la carga del articulo ni nada de eso. entonces tu ves viable usar algunas de estas tecnologias que me compartes? la de orillusion o galacean?
+
+Para llevar el blog de materiaprogramable.com al siguiente nivel —pasando de simples puntos flotantes a animaciones que realmente expliquen conceptos complejos sin arruinar el rendimiento— la respuesta corta es: Sí, es totalmente viable, pero una de ellas es la ganadora indiscutible para tu flujo de trabajo.
+
+Aquí tienes el análisis directo de cómo encajan ambas tecnologías en tus prioridades (velocidad, estabilidad y facilidad de desarrollo):
+
+🏆 La opción ideal: Galacean Engine
+Desarrollado por el gigante Ant Group (Alibaba), este motor está diseñado específicamente para la web móvil y la ligereza. Para tu caso, es la mejor opción por tres razones críticas:
+
+Tiene un Editor Web Visual: Olvídate de picar código matemático a ciegas para mover cada átomo o nodo. Galacean incluye un editor online (estilo Unity o Blender pero en el navegador). Puedes diseñar la animación conceptual de forma visual, configurar los estados y luego exportar un archivo ligerísimo que controlas con unas pocas líneas de TypeScript.
+
+Estabilidad blindada: Está probado en producción masiva (aplicaciones de Alipay). Su tasa de error o crash en dispositivos móviles es casi nula. No te va a romper el sitio web.
+
+Arquitectura ECS (Entidad-Componente-Sistema): Es mucho más ordenada y modular que Three.js. Si un artículo habla de "bloques que se auto-ensamblan", puedes programar el componente "Bloque" y duplicarlo fácilmente en tu escena web.
+
+🔬 La opción experimental: Orillusion
+Es una tecnología increíble y muy alineada con la estética de la materia programable porque corre de forma nativa en WebGPU (lo que permite simulaciones de física y millones de partículas directo en la tarjeta gráfica). Sin embargo, para producción actual tiene contras:
+
+Riesgo de compatibilidad: Aunque WebGPU es el futuro, todavía puede fallar o no estar activo en navegadores más antiguos o ciertos teléfonos móviles. Si falla, tu artículo se quedará en blanco o requerirá que programes un fallback (un plan B).
+
+Curva de desarrollo: Sigue estando en una etapa más técnica y orientada a código puro y shaders. No te hará el proceso de creación editorial más fácil o rápido para cada post.
+
+Conclusión y Recomendación para tu Stack
+Dado que usas Gemini + Google AI Studio para apoyarte con el código y buscas velocidad de despliegue en Vercel, el flujo ideal para tu blog sería:
+
+Diseñas el esquema interactivo del artículo en el Galacean Editor.
+
+Le pides a la IA que te genere la lógica interactiva en TypeScript usando la API limpia de Galacean.
+
+Lo embebes como un componente ultra-ligero que solo se activa cuando el usuario llega a esa parte del texto.
+
+¿Te llama la atención la idea de usar un editor visual interactivo para armar estos esquemas, o prefieres seguir controlando todo estrictamente desde código puro en tu editor?
+
+pues mira que en este momento, lo que hago la investigacion de articulos de referencia o inspiracion, de allí con gemini escribimos el articulo en un txt, luego lo pongo en una carpeta del repositorio y en Open Code le digo que procese el archivo y lo suba y lo que hace es 1. lo fimatea 2. lo pasa a ingles para su version en ingles 3. crea la animacion usando tree.js 4. carga la animacion y los articulos en ingles y español a github y aalí hace deploy en clouflare y se publica. Entonces la pregunta es, este mismo procedimiento se podria mantener con esta tecnologia? por que me parecio leerte que necesita api y no se si esa tenga crobro o complejice mas el proceso, como lo ves? o hay forma de mejorar o potenciar tree.js que me aconsejas?
+
+Tu flujo de trabajo actual es brillante y muy eficiente. Analizando cómo procesas todo automáticamente (donde la IA genera el artículo y el código de la animación de forma autónoma), aquí tienes la respuesta directa sobre los costos y la viabilidad:
+
+Respecto a Galacean u Orillusion en tu flujo actual:
+Costos: Ambas tecnologías son de código abierto y gratuitas para usarlas en producción (Cloudflare/GitHub). No hay cobros de API por renderizar la animación en el navegador del usuario.
+
+El gran problema (Complejidad): Tu cuello de botella no será el despliegue, sino la IA que genera el código. Modelos como Gemini tienen miles de millones de ejemplos de código de Three.js en su entrenamiento, por lo que escriben código funcional casi sin errores. Si intentas que la IA genere código para Galacean u Orillusion, va a "alucinar" (inventar funciones que no existen) y tu pipeline automático se romperá constantemente.
+
+Por lo tanto, no te aconsejo cambiar de tecnología. Es mucho más viable y potente mejorar lo que ya tienes con Three.js.
+
+Cómo potenciar Three.js en tu automatización (Sin romper tu flujo)
+Para pasar de "puntos que flotan" a animaciones orgánicas de materia programable sin ralentizar la web, debes ajustar las instrucciones (el prompt) que tu script le da a la IA para crear la animación. Dile que aplique estos tres cambios:
+
+1. Forzar el uso de Shaders personalizados (ShaderMaterial)
+En lugar de mover puntos con JavaScript (que satura la CPU), pídele a la IA que use GLSL (Shaders). Las IA son extraordinariamente buenas escribiendo Shaders matemáticos. Con esto puedes lograr efectos visuales impresionantes en la tarjeta gráfica (GPU) como:
+
+Campos magnéticos interactivos.
+
+Fluidos moleculares que reaccionan al mouse.
+
+Efectos de metamorfosis (morphing) entre geometrías.
+
+2. Cambiar puntos por InstancedMesh
+Si el artículo habla de "bloques" o "nanobots", dile a la IA que use InstancedMesh. Esto permite a Three.js renderizar miles de geometrías 3D complejas (cubos, esferas detalladas, enlaces) de un solo golpe, manteniendo los 60 cuadros por segundo incluso en celulares viejos.
+
+3. Implementar un "Template Paramétrico"
+No dejes que la IA invente el código de Three.js desde cero para cada artículo. Crea una plantilla base fija en tu repositorio (por ejemplo, una red de nodos o un cubo de partículas). Haz que tu script de automatización solo le pida a la IA que genere las variables o las fórmulas matemáticas (funciones de onda, ruido de Perlin) que alteran esa forma según el tema del artículo.
+
+En resumen: Quédate en Three.js para mantener la estabilidad de tu automatización, pero eleva el nivel exigiéndole a la IA que use Shaders y código basado en la GPU. ¿Quieres que armemos un prompt técnico optimizado para que tu script obligue a la IA a generar este tipo de animaciones avanzadas?
+
+si
+
+Aquí tienes el prompt técnico optimizado. Puedes integrarlo directamente en tu script de automatización para que actúe como la "instrucción del sistema" o system instruction cuando le pidas a la IA generar la animación para el artículo.
+
+Está diseñado para que no use imágenes externas, no sature la CPU y se enfoque puramente en la estética de la materia programable (auto-ensamblaje, redes complejas, metamorfosis).
+
+Prompt del Sistema para tu Pipeline Automatizado
+Plaintext
+Eres un desarrollador experto en WebGL, Three.js avanzado y matemáticas aplicadas a gráficos por computadora. 
+
+Tu tarea es generar un código JavaScript autónomo y optimizado para una animación 3D interactiva que sirva de fondo e ilustración conceptual para el artículo adjunto. El tema central del sitio es "Materia Programable" (nanobots, auto-ensamblaje, metamateriales, robótica modular, estructuras cambiantes).
+
+REQUISITOS TÉCNICOS ESTRICTOS (Cero Impacto en Rendimiento):
+1. SIN ASSETS EXTERNOS: No uses texturas (.jpg/.png) ni modelos 3D externos (.gltf/.obj). Todo debe ser generado procedimentalmente usando geometrías nativas de Three.js (BufferGeometry, BoxGeometry, SphereGeometry).
+2. ENFOQUE EN GPU (SHADERS Y RENDIMIENTO): 
+   - Evita mover miles de objetos individuales mediante bucles 'for' en JavaScript (satura la CPU).
+   - Utiliza 'THREE.InstancedMesh' si necesitas renderizar múltiples bloques, nodos o elementos geométricos repetidos que interactúan entre sí.
+   - Utiliza 'THREE.ShaderMaterial' con código GLSL personalizado (Vertex y Fragment Shaders) para efectos de metamorfosis (morphing), ondas, campos magnéticos o fluidos. Las IA son excelentes en matemáticas de Shaders; aprovecha esto para crear efectos visuales orgánicos de alta gama en la GPU.
+3. LIMPIEZA DE MEMORIA: Asegúrate de incluir la lógica de remoción/destrucción (.dispose()) de geometrías y materiales para evitar fugas de memoria al cambiar de página.
+4. RESPONSIVE: El canvas debe ajustarse automáticamente al redimensionar la ventana (resize event).
+5. INTERACTIVIDAD SUTIL: Permite que el movimiento del mouse altere levemente el campo magnético, la gravedad o la disposición de los elementos sin romper la animación principal.
+
+ESTRUCTURA DE SALIDA DEL CÓDIGO:
+Devuelve EXCLUSIVAMENTE el bloque de código de JavaScript encerrado en etiquetas de código (```javascript ... ```). El código debe exportar una función principal, por ejemplo: 'initProgrammableAnimation(containerId)', que reciba el ID del contenedor HTML donde se inyectará el canvas.
+
+INSTRUCCIÓN CREATIVA SEGÚN EL ARTÍCULO:
+Analiza el texto del artículo adjunto. Si habla de fluidos o nanobots líquidos, genera un sistema de partículas basado en Shaders con ruido de Perlin/Simplex. Si habla de estructuras sólidas o metamateriales, genera una red de 'InstancedMesh' que se auto-ensambla o cambia de forma de manera geométrica y paramétrica.
+¿Cómo aplicarlo en tu flujo?
+En tu script (Open Code / Node.js / Python), cuando envíes la petición a la API de Gemini para la parte de la animación, estructura el envío de esta forma:
+
+System Instruction: El prompt técnico que te acabo de dar.
+
+User Prompt: "Aquí está el artículo: [Insertar texto del txt]. Genera la animación en base a las reglas anteriores."
+
+Esto forzará a la IA a dejar de escribir el clásico código básico de puntos flotantes (THREE.Points) y la obligará a usar matemática de Shaders o mallas instanciadas, logrando un aspecto visual muchísimo más avanzado y profesional sin consumir recursos de tu servidor ni del navegador del usuario.
+
+si no estoy mal estos son los archivos que hacen el procesamiento de los articulos, revisalos y dime si alguno es el que hay que hacerle los ajustes.
+
+Revisando tus archivos, tienes un pipeline automatizado muy bien estructurado. Sin embargo, hay un detalle clave sobre cómo funciona tu sistema actual que cambia la estrategia:
+
+Tus scripts de Python no generan código de Three.js directamente. Lo que hace tu archivo analyze_article.py es pedirle a Gemini que clasifique el artículo y devuelva parámetros de configuración en JSON (como el color, el tipo de movimiento o la forma). Luego, update_articles.py guarda esos parámetros en el frontmatter (la cabecera) de tus archivos Markdown (.md).
+
+Esto significa que en el código de tu sitio web (seguramente un archivo Astro, React o JavaScript dentro de src/) tienes un componente base de Three.js que lee ese JSON y dibuja los puntos flotantes según los parámetros guardados.
+
+Por lo tanto, el ajuste debe dividirse en dos partes:
+
+1. El único cambio en tus archivos Python (analyze_article.py)
+Si quieres que la IA empiece a sugerir efectos mucho más avanzados y deje de limitarse a lo básico, debes actualizar el prompt dentro de analyze_article.py (líneas 131-143).
+
+Aquí tienes el reemplazo exacto para esa sección de tu archivo:
+
+Python
+    prompt = """You are an expert in advanced WebGL and generative design. Generate high-end animation parameters for this Programmable Matter article.
+
+Title: TITLE
+Content: CONTENT
+
+Return JSON only:
+{
+"theme": "sci-fi|organic|geometric|molecular|mechanical|neural|quantum",
+"primary_color": "#HEX", 
+"secondary_color": "#HEX",
+"particle_count": 1000-5000, 
+"shape": "instanced-cubes|instanced-nodes|custom-shader-wave|dna-helix|magnetic-field|fluid-atoms",
+"movement": "gpu-computed|quantum-swarm|morphing|pulsing|flowing|orbiting",
+"speed": 0.5-2.5, 
+"interaction": "mouse-gravity|scroll-warp|click-explode|none",
+"camera_mode": "static|orbit|pan|auto-rotate",
+"special_effects": "custom-shader-glow|chromatic-aberration|gpu-trails|wireframe-instanced|transparent-glass",
+"description": "brief engineering description of the programmable matter visualization"
+}
+"""
+2. ¿Dónde está el archivo que realmente debes modificar?
+El archivo que maneja los "puntos flotantes que se mueven detrás del texto" está en tu proyecto web (el repositorio que luego subes a Cloudflare).
+
+Busca dentro de la carpeta de tu página web (fuera de estos scripts de Python) un archivo que contenga palabras como new THREE.Points o THREE.WebGLRenderer. Suele llamarse algo como:
+
+src/components/AnimationCanvas.astro
+
+src/components/ThreeBackground.jsx (o .tsx / .js)
+
+Ese componente frontend es el que lee el JSON que genera tu Python y el que necesita ser actualizado con THREE.InstancedMesh o THREE.ShaderMaterial para que interprete las nuevas formas avanzadas que ahora le enviará el script de Python.
+
+¿Logras ubicar ese archivo de componentes 3D dentro de la estructura de tu sitio web?
+
+parece que no es solo un archivo si no varios, mira la imagen
+
+¡Ojo ahí! Te metiste en la dimensión equivocada del proyecto.
+
+Lo que estás viendo en la imagen es la carpeta node_modules, que es donde se descargan las librerías automáticas de terceros. Además, esa carpeta se llama css-tree (una herramienta interna para procesar estilos CSS), por lo que no tiene nada que ver con tu código de Three.js.
+
+Regla de oro del desarrollo: Nunca modifiques nada dentro de node_modules, porque cuando el sitio web se compila en Cloudflare, esa carpeta se borra y se vuelve a descargar limpia, perdiendo cualquier cambio.
+
+Dónde buscar el archivo real
+Debes salir por completo de node_modules y volver a la raíz de tu proyecto materiaprogramable. Según lo que vimos en tus scripts de procesamiento de artículos, tu código fuente real está dentro de la carpeta src.
+
+Busca tu componente de animación siguiendo esta ruta:
+
+Entra a src/
+
+Busca una carpeta llamada components/ o layouts/
+
+Allí vas a encontrar archivos con extensión .astro, .jsx o .js. Uno de ellos debe llamarse algo parecido a AnimationCanvas, ThreeBackground, o simplemente tener el código que inicializa la escena 3D leyendo el frontmatter de tus artículos.
+
+¿Qué archivos ves dentro de tu carpeta src/components/ (si existe)?
+
+no tampoco, por ahora lo vamos a dejar asi y en estos dias le dedico otro rato a mirar otras tecnologias y ver si alguna le aporta a la experiencia de usuario.
+
+De una, Mauricio. Dejarlo quieto por ahora es lo más sensato, sobre todo porque tu flujo automatizado actual ya es sumamente eficiente.
+
+Cuando decidas sacar otro rato para explorar cómo mejorar la experiencia de usuario o quieras que adaptemos el componente del frontend para exprimir Three.js con mallas instanciadas o Shaders, me avisas y lo montamos de inmediato.
+
+¡Mucho éxito con los próximos artículos de materiaprogramable.com!
+
+mira, esta tecnologia, creo que habiamos hablado de ella tambien o de este sirtio web https://messenger.abeto.co/ creo que es tree.js pero no si tiene elago mas puede verificar?
+
+¡Qué buen ojo tienes! Sí, ese juego web de exploración (Messenger desarrollado por Abeto) utiliza Three.js como motor base. Lo genial es que no usa motores pesados como Unity o Godot; todo fue programado desde cero usando WebGL nativo.  
+YouTube
++ 1
+
+Para lograr que ese pequeño planeta esférico funcione tan fluido y soporte multijugador sin romper el navegador, implementaron herramientas muy interesantes en su stack tecnológico:  
+DEV Community
+
+three-mesh-bvh (La magia del rendimiento): Es una extensión crucial para Three.js. Permite calcular colisiones tridimensionales y física en tiempo real de forma ultra-rápida (mediante jerarquías de volúmenes envolventes), evitando que el procesador se sature mientras caminas por la curvatura del planeta.  
+YouTube
++ 1
+
+WebSockets + Node.js: El backend maneja el multijugador en tiempo real mediante conexiones WebSocket directas, limitando el mundo a un máximo de 10 jugadores simultáneos por sala para mantener la atmósfera tranquila y fluida.  
+YouTube
+
+Diseño 3D Procedimental: Los modelos tridimensionales de baja poligonización (low-poly) fueron esculpidos en Houdini y Blender, y las texturas optimizadas en Substance.  
+DEV Community
+
+Es el ejemplo perfecto de lo que hablábamos: ingeniería visual de alta gama donde un buen código y la optimización de shaders/geometría reemplazan por completo la necesidad de un motor gráfico pesado. ¡Toda una joya de la materia digital!  
+YouTube
+
+pregunta con esta tecnologia podriamos hacer algo creo que un poco mas sencillo. pensando en el blog de materia programable, por ejemplo que el articulo actue como prompt y que apartir de allí cree una animacion de 20 0 30 segundos o algo interativo que explique el concepto central del articulo? y se ponga en la parte superior del articulo. (algo asi es lo que me imagino) crees que es posible?
+
+¡Totalmente posible! De hecho, es la evolución natural para tu blog materiaprogramable.com y encaja como anillo al dedo en el pipeline de automatización que ya tienes montado.
+
+La clave para que esto sea sencillo, económico y ultra-rápido es hacerlo durante el proceso de creación del artículo (Build-time) y no cuando el lector abre la página.
+
+¿Cómo funcionaría en tu flujo actual?
+En lugar de que tu script analyze_article.py devuelva solo un JSON con variables fijas (colores, formas estáticas), modificamos el prompt para que Gemini devuelva el bloque de código de Three.js completo y específico inspirado en ese texto.
+
+Tu script procesa el artículo: Como ya lo hace hoy con tus archivos de texto plano.
+
+Gemini diseña la lógica visual: Basándose en el concepto central (por ejemplo, si el artículo habla de Claytronics), la IA escribe una función matemática personalizada en JavaScript que mueve las mallas o Shaders emulando esos nanobots.
+
+Inyección automática: Tu script de Python guarda ese código en un archivo .js independiente o lo inserta directamente dentro del cuerpo del Markdown.
+
+Despliegue: GitHub y Cloudflare hacen el deploy. Al abrir el artículo, la parte superior (el Hero) ejecuta ese script exclusivo.
+
+Video de 20 segundos vs. Animación Interactiva: ¿Qué conviene más?
+Te aconsejo 100% la animación interactiva con código por encima de un formato de video renderizado (MP4) por tres razones de peso:
+
+Costo y Complejidad: Generar un video automático con IA requiere integrarte con APIs externas costosas y lentas de video generativo (como Runway o Luma). En cambio, el código Three.js lo genera Gemini en un segundo dentro de tu misma consulta actual.
+
+Rendimiento: Un video en la parte superior devora el ancho de banda de tus usuarios y ralentiza la carga de la página. El código interactivo ocupa apenas unos cuantos Kilobytes de texto plano.
+
+Identidad del Blog: No hay nada más coherente para un sitio de materia programable que permitirle al lector "tocar", arrastrar y alterar la estructura 3D con el mouse o el scroll. Un video es pasivo; la materia programable debe ser reactiva.
+
+Para ver qué tan directo es implementarlo, ¿tu plantilla del frontend (donde se pintan los artículos) está hecha con Astro puro, o usas componentes de React/Vue para manejar la interactividad?
+
+creo que es Astro puro, pero verifica la imagen y dime si ves algo diferente
+
+¡Confirmado! Es Astro puro (lo delata el archivo astro.config.mjs) e incluye soporte para TypeScript (tsconfig.json).
+
+Hay un detalle extra muy positivo en tu estructura: la carpeta .wrangler confirma que estás compilando o desplegando directamente hacia Cloudflare (Pages/Workers), lo cual es ideal para mantener todo veloz.
+
+¿Por qué esto facilita la animación personalizada por artículo?
+Astro tiene una ventaja enorme frente a React o Vue para este experimento: permite inyectar scripts de JavaScript nativo directamente en el HTML sin penalizar el rendimiento.
+
+Podemos cambiar la estrategia para que funcione así de fácil:
+
+El script de Python genera el código: En lugar de guardar un JSON con variables fijas, le pedimos a Gemini que genere un bloque de código básico de Three.js metido en una función como renderAnimation().
+
+Se guarda en el Markdown: Tu script inyecta este código en el frontmatter del artículo como un texto plano largo:
+
+YAML
+animation_code: "const scene = new THREE.Scene(); ... "
+Astro lo ejecuta de forma segura: En tu plantilla de Astro que renderiza el post, pones una etiqueta de script nativa que lea esa variable y la ejecute usando un set:html:
+
+Fragmento de código
+<script is:inline set:html={frontmatter.animation_code} />
+Con este flujo, cada artículo de materiaprogramable.com tendrá su propia animación interactiva única de 30 segundos escrita por la IA, cargará instantáneamente en Cloudflare y no tuviste que tocar nada de arquitecturas complejas de programación.
+
+¿Te suena la idea de ajustar el script de Python más adelante para empezar a guardar el código directamente en los .md?
+
+si
+
+¡Manos a la obra! Es un cambio elegante y directo. Aquí tienes los dos ajustes precisos que necesitas hacer para automatizarlo:
+
+1. Modificación en tu analyze_article.py
+Solo debes cambiar el prompt dentro de tu función analyze_article para que Gemini devuelva código JavaScript puro en lugar de parámetros estáticos:
+
+Python
+    prompt = """Eres un experto en Three.js. Genera un script compacto de JavaScript (vanilla) para una animación interactiva en 3D inspirada en el siguiente artículo. 
+El código debe asumir que ya existe un elemento <canvas id="animation-canvas"></canvas> en la página y que Three.js está cargado globalmente.
+Incluye la creación de la escena, cámara, renderizador, geometría (partículas, mallas relativas al tema), luces y la función de animación (requestAnimationFrame). El fondo debe ser transparente o negro puro.
+
+Título: TITLE
+Contenido: CONTENT
+
+Devuelve SOLO un JSON con esta estructura (escapa bien las comillas dentro del código JS):
+{
+"description": "Breve descripción de la animación",
+"js_code": "const canvas = document.getElementById('animation-canvas'); const scene = new THREE.Scene(); ... function animate() { requestAnimationFrame(animate); renderer.render(scene, camera); } animate();"
+}
+"""
+2. En tu plantilla de Astro (ej. [...slug].astro)
+En el archivo del frontend que renderiza tus artículos, agregas el contenedor para el canvas y la inyección directa del código que vendrá en el frontmatter:
+
+Fragmento de código
+---
+// src/layouts/BlogPost.astro o similar
+const { frontmatter } = Astro.props;
+---
+
+<div class="hero-animation-container" style="width: 100%; height: 350px; position: relative;">
+  <canvas id="animation-canvas" style="width: 100%; height: 100%;"></canvas>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" is:inline></script>
+
+{frontmatter.animation_code && (
+  <script is:inline set:html={frontmatter.animation_code} />
+)}
+Con esto, cada vez que ejecutes tu pipeline, el artículo se subirá a Cloudflare con su propia obra de arte interactiva en 3D lista para ejecutarse en el navegador del lector. Cuando quieras ajustar tus scripts de Python para empezar a probarlo con un artículo real, me avisas.
