@@ -25,3 +25,12 @@ pnpm-debug.log*
 
 # wrangler (Cloudflare dev)
 .wrangler/
+
+tmp/
+.wrangler/
+__pycache__/
+.ruff_cache/
+dist/
+node_modules/
+.env
+*.pyc
