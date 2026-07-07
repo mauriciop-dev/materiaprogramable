@@ -71,7 +71,7 @@ For those of us who closely follow the evolution of programmable matter, the wor
 
 ## Sources
 
-- https://www.infosalus.com/salud-investigacion/noticia-adios-biopsias-dolorosas-crean-microrobots-administran-farmacos-dentro-cuerpo-luego-desaparecen-20260505070848.html
-- https://www.tomorrowsworldtoday.com/robotics/biodegradable-microrobots-could-transform-drug-delivery-and-biopsies/
-- https://www.drugtargetreview.com/metal-microrobots-deliver-drugs-and-biopsies-before-dissolving/2135375.article
-- https://www.researchgate.net/profile/Ling-Li-66
+- [Infosalus - Goodbye Painful Biopsies: Microrobots Deliver Drugs Inside the Body Then Disappear](https://www.infosalus.com/salud-investigacion/noticia-adios-biopsias-dolorosas-crean-microrobots-administran-farmacos-dentro-cuerpo-luego-desaparecen-20260505070848.html)
+- [Tomorrow's World Today - Biodegradable Microrobots Could Transform Drug Delivery and Biopsies](https://www.tomorrowsworldtoday.com/robotics/biodegradable-microrobots-could-transform-drug-delivery-and-biopsies/)
+- [Drug Target Review - Metal Microrobots Deliver Drugs and Biopsies Before Dissolving](https://www.drugtargetreview.com/metal-microrobots-deliver-drugs-and-biopsies-before-dissolving/2135375.article)
+- [ResearchGate - Ling Li Profile](https://www.researchgate.net/profile/Ling-Li-66)

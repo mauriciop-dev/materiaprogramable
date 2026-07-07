@@ -103,6 +103,33 @@ const articleJsonLd = JSON.stringify({
 				border-radius: 12px;
 				border: 1px solid var(--glass-border);
 			}
+			.prose table {
+				width: 100%;
+				border-collapse: collapse;
+				margin: 1.5rem 0;
+				font-size: 0.85rem;
+				background: rgba(0, 0, 0, 0.4);
+				border-radius: 8px;
+				overflow: hidden;
+			}
+			.prose th, .prose td {
+				border: 1px solid rgba(0, 240, 255, 0.25);
+				padding: 0.65rem 0.75rem;
+				text-align: left;
+				vertical-align: top;
+			}
+			.prose th {
+				background: rgba(0, 240, 255, 0.12);
+				color: var(--accent);
+				font-weight: 600;
+				white-space: nowrap;
+			}
+			.prose td {
+				color: rgb(var(--gray-light));
+			}
+			.prose tr:nth-child(even) td {
+				background: rgba(0, 240, 255, 0.04);
+			}
 			.prose img, .img-fluid {
 				max-width: 100%;
 				height: auto;

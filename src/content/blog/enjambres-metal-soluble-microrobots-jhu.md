@@ -71,7 +71,7 @@ Para quienes seguimos de cerca la evolución de la materia programable, el traba
 
 ## Fuentes
 
-- https://www.infosalus.com/salud-investigacion/noticia-adios-biopsias-dolorosas-crean-microrobots-administran-farmacos-dentro-cuerpo-luego-desaparecen-20260505070848.html
-- https://www.tomorrowsworldtoday.com/robotics/biodegradable-microrobots-could-transform-drug-delivery-and-biopsies/#:~:text=%E2%80%9CThe%20variability%20of%20the%20layers'%20thickness%20and,minutes%20to%20months%20depending%20on%20the%20application.%E2%80%9D
-- https://www.drugtargetreview.com/metal-microrobots-deliver-drugs-and-biopsies-before-dissolving/2135375.article#:~:text=The%20devices%20are%20made%20using%20a%20novel,stay%20within%20established%20safety%20limits%2C%E2%80%9D%20Liu%20said.
-- https://www.researchgate.net/profile/Ling-Li-66?__cf_chl_f_tk=BIMWkDwNqrxECEYm7k9RyubIHLiBZU_s55EV.zneBEo-1783444397-1.0.1.1-ra.BBH8OBQkuTHBCZhoeJqemSp5rJ9Y72vbbXSS4.Xc
+- [Infosalus - Adiós biopsias dolorosas: crean microrobots que administran fármacos dentro del cuerpo y luego desaparecen](https://www.infosalus.com/salud-investigacion/noticia-adios-biopsias-dolorosas-crean-microrobots-administran-farmacos-dentro-cuerpo-luego-desaparecen-20260505070848.html)
+- [Tomorrow's World Today - Biodegradable Microrobots Could Transform Drug Delivery and Biopsies](https://www.tomorrowsworldtoday.com/robotics/biodegradable-microrobots-could-transform-drug-delivery-and-biopsies/)
+- [Drug Target Review - Metal Microrobots Deliver Drugs and Biopsies Before Dissolving](https://www.drugtargetreview.com/metal-microrobots-deliver-drugs-and-biopsies-before-dissolving/2135375.article)
+- [ResearchGate - Perfil de Ling Li](https://www.researchgate.net/profile/Ling-Li-66)
