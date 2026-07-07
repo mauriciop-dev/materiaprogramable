@@ -1,0 +1,8 @@
+tmp/
+.wrangler/
+__pycache__/
+.ruff_cache/
+dist/
+node_modules/
+.env
+*.pyc
