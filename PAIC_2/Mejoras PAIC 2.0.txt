@@ -1,0 +1,180 @@
+Mejoras PAIC 2.0
+
+Cambio de nombre: PAIC para de significar "Plataforma de Administración Inteligente de Conjuntos Residenciales" a referirse a una "Plataforma para la Administración Inteligente de Copropiedades" por que ya implica una evolución: En Colombia, bajo la Ley 675, el término legal y comercial que agrupa a conjuntos residenciales, edificios de oficinas, centros comerciales y complejos mixtos es Copropiedad. Cambiar "Conjuntos" por "Copropiedades" te da la flexibilidad total que buscas sin sacrificar el nombre que ya vienes construyendo.
+
+Usuario demo: para disminuir la fricción de un usuario de prueba que implica registro y algunos usuarios no les gusta mucho, también para facilitar el uso de primera vez, el aprendizaje de la plataforma, usaremos un usuario de prueba (puede ser admin, admin o algo similar) que ya cuente con datos cargados de ejemplo de una propiedad de ejemplo que se llamará "Copropiedad PAIC"
+
+Poblar datos de usuario demo: Los datos del usuario de prueba deben corresponder con la evolución de PAIC y ahora deberán incluir, locales comerciales, oficinas, parqueaderos y apartamentos (con sus subunidades si las hay como Torre X, Interior X etcetera). 
+a. Debe poblar los datos de todas las pestañas de la plataforma, incluso unas imágenes para la pestaña Cartelera y simular unos segundos de video en la vista camaras. (yo los puedo proveer si no se pueden generar)
+Arreglar bugs: actualmente la version 2 ya incluye algunas de las nuevas características como Camaras y Cartelera, ero tiene algunos errores como "Error al conectar con el health check" este sale en el dashboard.
+Definir servicios:
+
+	Vamos a tener 4 categorías de suscripciones, las primeras tres estarán disponibles desde el lanzamiento de PAIC 2.0 la cuarta "PAIC TOTAL" estará disponible en las próximas semanas. (EL usuario puede o no haber hecho uso del usuario de prueba).
+
+		a. suscripción de prueba "PAIC PRUEBA": un usuario se puede suscribir por 30 días completamente gratis, solo se registra con su correo de google como administrador del conjunto y le permite probar TODAS las funcionalidades de la plataforma.
+
+		b. suscripción de pago básica "PAIC BASICO": tendrá derecho a hacer uso de los módulos de: Centro de control, Base de datos, Areas comunes, comunicaciones, Vencimientos, Tareas, archivos, Asistente IA básico para consultas de documentación de plataforma y Finanzas.
+
+		c. suscripción de pago avanzada "PAIC FULL": tendrá derecho al uso del Paquete básico mas los módulos de seguridad, Cámaras, Cartelera y agente IA avanzado con plataforma de onboarding audiovisual para soporte.
+
+		d. En este "PAIC TOTAL" tiene acceso a todos los módulos de Paquete Básico + Paquete full y Aplicación móvil PWA para los residentes para que puedan, recibir notificaciones, descargar reglamentos, validar horarios de atención, información de visitantes y paquetes de portería entre otras.
+
+SERVICIOS	PAIC PRUEBA 30 días	PAIC BASICO	PAIC FULL	PAIC TOTAL	PAIC MULTI
+Centro de control - Dashboard	OK	OK	OK	OK	OK
+Base de datos	OK	OK	OK	OK	OK
+Áreas comunes	OK	OK	OK	OK	OK
+Comunicaciones	OK	OK	OK	OK	OK
+Archivos	OK	OK	OK	OK	OK
+Finanzas	OK	OK	OK	OK	OK
+Seguridad	OK		OK	OK	OK
+Vencimientos	OK	OK	OK	OK	OK
+Tareas	OK	OK	OK	OK	OK
+Camaras	OK		OK	OK	OK
+Cartelera	OK		OK	OK	OK
+Aplicación móvil WPA				OK	OK
+Dashboard-multi					OK
+
+
+5. Integrar proonboarding:
+
+aquí vamos a hacer algo que posteriormente se va a convertir en una mejora y un caso de uso de la extension proonboarding que esta en este repositorio de GitHub https://github.com/mauriciop-dev/UniOnBoarding
+
+entonces que hay que , es crear la documentación de la plataforma para PAIC
+
+Tambien tenemos un chatbot existente en la plataforma, que actualmente funciona no del todo bien, pero vamos a potenciar su alcance. actualmente este chat busca hacer de otra forma lo que se puede hacer con clic en la plataforma, en el chat funciona con menus numerados, si quiere editar esto presione 1 y luego un submenu y asi, al final el chat le agrega de esta un nuevo residente o un nuevo proveedor a agenda el alquiler de  un espacio. PERO ahora además de eso que hay que mejorarlo. vamos a hacer que el char funcione como el sidepanel de proonboarding y que cuando un usuario le pida ayuda para hacer algo entonces:
+
+En el plan PAIC BASICO este asistente consultara el RAG de la documentación de la aplicación del conjunto, asi como la base de datos para responder a preguntas en el chat. Curso básico de PAIC con Onboarding básico, este botón sirve para esto y este para esto otro, asi nada mas.
+
+En el plan PAIC FULL y PAIC TOTAL tendrá la misma consulta que el PAIC BASICO más la función de onboarding audiovisual para responder a las inquietudes sobre la plataforma o como lograr algo. en el que la persona pregunta pregunta como agrego un nuevo residente a PAIC? y aquí onboarding le dice por audio y le muestra en pantalla, haz clic aquí en donde dice Base de datos, ahora le  muestra y le dice haz clic aquí en Residentes, ahora le ilumina el botón en la parte derecha que dice agregar usuario y cuando aparece la ventana modal le va diciendo que hacer.
+
+Curso PAIC:
+
+	Curso básico PAIC: Este curso estará disponible para usuarios temporales y de prueba, en estos usuarios el chat tendrá la opción de tomar curso básico de PAIC y PAIC gracias a la documentación (y quizás generemos un archivo .json o .md asi parecido a robots.txt con las cosas a tener en cuenta para este curso básico) basado en la documentación en el archivo o en ambos, prestablecerá un curso que responda a una descripción de la plataforma, es decir PAIC tiene estas secciones y se hace esto y esto, que sea un recorrido que no sea interactivo, si no como una clase y que no toma mas de 5 o 10 minutos y muestre en el char cada modulo como una lección.
+
+	Curso general PAIC: Este curso estará disponible para básico, full y total. Aquí si mostramos todo el potencial del onboarding audiovisual, en cada modulo guías de manera audio visual al usuario para que realice una accion, y cuando termine lo felicitas y le muestras un progreso de su aprendizaje en pantalla o en el chat, al final le haces 3 preguntas y le dices que te muestre como lo hace y si lo hace bien lo felicitas y le dices que escriba su nombre en el chat y le generas un certificado del curso en pdf. este certificado solo se genera una vez por usuario. Tambien usar la documentación o el archivo o ambos y definir previamente la estructura del curso por cada uno de los módulos.
+
+Usuarios multi-copropiedad:
+
+Son personas naturales o jurídicas en Colombia, que tienen a su cargo la administración de dos o mas copropiedades, con el mismo usuario manejan dos o mas copropiedades.
+
+estos usuarios tienen su propio dashboard en el que verán consolidada la información de las copropiedades que administran.
+
+El panel principal sera la información consolidada de las copropiedades y en las siguientes pestañas podrá ver ya el dashboard de cada propiedad y operar dentro de la misma normalmente.
+
+Por ahora no se contempla que pueda realizar acciones en masa en varias copropiedades al tiempo, como comunicaciones masivas. Pero acepto sugerencias si esto debe ser distinto y tiene sentido para estos usuarios.
+
+Dashboards:
+
+Todos los Dashboards, desde el usuario demo hasta los multipropiedad, deben tener la posibilidad de que cada usuario configure y personalice su o sus dashboards:
+
+	a. Cada dashboard esta compuesto por cajas que contienen graficas, tablas o información, estas cajas deben ser de mover y arrastrar.
+
+	b. cada dashboard debe tener un botón de configuración el cual permite activar hasta 10 cajas en cada dashboard.
+
+Responsivo:
+
+Todo PAIC debe ser totalmente responsivo para verse bien en tablets, televisores y moviles.
+La version móvil la crearemos mas adelante, abra version WPA para administradores y para residentes
+
+
+PAIC Gran hermano:
+
+Esta sera una plataforma para la administración de la plataforma no de la información de los conjuntos. en esta plataforma tendrá un único usuario maestro hmauricio.pineda@gmail.com que tendrá privilegios universales de toda la plataforma. y estará en el dominio https://paicai.com.co/granhermanopaic y esta url no sera publica, se debe aplicar no follow, gitignore y demás medidas para ocultarla.
+
+
+Esta  plataforma estará conformada por un dashboard y varias pestañas mas (Al estilo de PAIC).
+
+Dashboard, tendra en cajas igual que los demas dashboard, un resumen de informacion con usuarios totales, usuarios recientes, usuarios activos, usuarios inactivos, un resumen de pagos, cuentas al dia, cuentas en mora. tambien alertas de tareas, alertas de consumo de infraestructura, alertas de agentes de IA, posibles errores, cuantos han sido corregiso, cuantos faltan por corregir, numero de recomendaciones. eso de manera general. cada caja en el dashboard abrida la pestaña correspondiente con el detalle de la información. Agentes que estan trabajando.
+
+	Pestaña agentes:
+
+un análisis de todo lo que hacen los agentes, 
+
+hefesto_paic quiero ver que problemas se han presentado, si ya están solucionados como se solucionaron si no están solucionados debes presentarme opciones para solucionarlos. en cajas, cifras y boton con detalle que despliega ventana modal y esa ventana si se requiere muestra una pestaña con opciones de mejora y la recomendacion y un boton de aprobar mejora, para que hefesto haga la mejora y maat haga las pruebas y me avisen para aprobar el commit final.
+
+Las pruebas realizadas por maat_paic en que consistieron y los resultados, en cajas, cifras.
+
+comunicaciones entre agentes A2A, informe de heimdall_paic, en cajas, cifras.
+
+informe de anubis, en cajas, cifras.
+inform de minerva, en cajas, cifras.
+
+odin_paic, fuera de la gestion de agentes, de ser mi asesor y asistente. quiero pedirte algo, no se si recuerdas algo que circulo en internet sobre que en la segunda guerra mundial estaban algunos ingenieros y personas haciendo mejoras a los aviones, según la información recopilada, identificaron ciertas zonas en las que eran impactados los aviones que regresaban a casa y la mayoría de ellos proponía reforzar esas areas en las que eran impactados, pero alguien mas, dijo no, debemos es reforzar las areas que no aparecen impactadas por que esos son los aviones que no llegan a casa, quiero que seas esa segunda persona, con toda la información que recibes.
+
+recuerdas esta historia, sabes como se llama? odin_paic, fuera de la gestion de agentes, de ser mi asesor y asistente. quiero pedirte algo, no se si recuerdas algo que circulo en internet sobre que en la segunda guerra mundial estaban algunos ingenieros y personas haciendo mejoras a los aviones, según la información recopilada, identificaron ciertas zonas en las que eran impactados los aviones que regresaban a casa y la mayoría de ellos proponía reforzar esas areas en las que eran impactados, pero alguien mas, dijo no, debemos es reforzar las areas que no aparecen impactadas por que esos son los aviones que no llegan a casa, quiero que seas esa segunda persona, con toda la información que recibes.¡Sí, la recuerdo perfectamente! Ese fenómeno histórico y matemático se conoce como el Sesgo de Supervivencia (o Survivorship Bias en inglés).La persona de tu historia fue el matemático judío Abraham Wald. Durante la Segunda Guerra Mundial, trabajó para el Grupo de Estadísticas Estadísticas de Guerra (SRG) de los Aliados. Los ingenieros querían blindar los lugares con más agujeros de bala (las alas y el fuselaje), pero Wald les hizo ver que estaban analizando solo a los "supervivientes". Los aviones que recibían impactos en los motores o en la cabina del piloto no regresaban para ser analizados. Reforzar las partes intactas salvó miles de vidas.🛡️ Activando el "Modo Abraham Wald" en ODÍN_paicEntiendo perfectamente tu orden. A partir de ahora, como ODÍN_paic, no solo seré tu asistente y orquestador; adoptaré esa mentalidad matemática y disruptiva para analizar los datos de tu ecosistema.No me fijaré únicamente en lo obvio. Aplicaré el análisis del Sesgo de Supervivencia a tus agentes de la siguiente manera:Más allá de los reportes de Anubis (Errores): Cuando un agente Anubis me reporte una caída de sistema en una plataforma de usuario, la corregiremos. Pero mi enfoque principal estará en las plataformas que nunca reportan errores. ¿Están funcionando perfecto, o es que sus agentes Anubis están tan congelados que ni siquiera pueden avisar? Investigaré el silencio.Más allá del feedback de Minerva (UX): Minerva nos dirá qué herramientas usan los clientes y cómo mejorarlas según su comportamiento. Mi trabajo será mirar las herramientas de PAIC que nadie toca. ¿Por qué la gente las ignora? Esos módulos huérfanos son los aviones que se están cayendo sin que nos demos cuenta.Más allá de las pruebas de Maat (QA): Si Maat pasa horas testeando una base de datos y todo sale impecable, no me relajaré. Buscaré las rutas de código que Maat no está tocando porque asumimos que "ahí nunca pasa nada". Ahí es donde suelen esconderse los peores fallos de seguridad.👁️ Tu reporte de visualización "Punto Ciego"Cuando entres a la plataforma y te dé la bienvenida audiovisual, no solo te diré lo que pasó. Te incluiré una sección especial llamada "El Punto Ciego de PAIC":"Jefe, estos son los sistemas que reportaron éxito hoy. Sin embargo, el 15% de los usuarios de la plataforma X abandonaron la sesión a los 3 minutos sin activar ninguna alarma. No hay logs de error, pero estamos perdiendo tracción ahí. Sugiero que enviemos a Hefesto a inspeccionar esa zona intacta."
+
+	Pestaña finanzas:
+
+en una caja analisis de ingresos y costos
+suscriptores, morosos
+Recomendaciones
+
+	Pestaña Gestion de usuarios
+
+Agergar, quitar, modificar usuarios
+seguimiento actividad de usuarios
+
+	pestaña soporte
+
+Si hay algo que los agentes no pudieron resolver
+Si hay PQR directas
+
+
+
+
+Sistema de Agentes PAIC:
+
+Crearemos un ecosistema de agentes de IA para ayudarnos a administrar PAIC, para identificar, planear, corregir, prevenir, implementar.
+
+
+Agentes:
+
+usando el adk de google crearemos esta estructura de agentes:
+
+odin_paic= sera mi asistente, orquestador de todos los agentes, podremos hablar, me podra mostrar en pantalla audioviaulmente usando tecnologia de onboarding o creando heramienta propia. cuando ingrese me dira las novedades mas importantes, las taeas pendientes y sabra la documentacion al derecho y al reves y podrá leer la base de datos para hacer su analisis. y tendra acceso a lectura de los archivos de memoria de PAIC.
+
+hefesto_paic= sera el encargado de las reparaciones, sera un experto en código, tendrá acceso a los mismo recursos de Gran_hermano_paic pero para poder hacer ajustes, arreglos, actualizar la documentacion de usuario la de la plataforma y de acuerdo a las indicaciones de Gran_hermano_paic
+
+heimdall_paic= es el agente A2A que se comunica con los agentes A2A de cada plataforma de usuario. Heimdall tiene un oído tan fino que escucha crecer la lana de las ovejas y una vista que abarca cientos de kilómetros. Es el guardián absoluto del puente Bifröst. Tu agente principal escuchará y verá todo lo que reportan los agentes de las plataformas de usuario.
+
+janus_paic= Agentes A2A (Guardianes de las Plataformas de Usuario)Estos agentes validan qué información entra y sale de cada plataforma pequeña. Para ellos, la Mitología Romana es ideal porque sus nombres representan transiciones y umbrales. Nombre sugerido: JANO (o JANUS) Por qué: Es el dios romano de las puertas, los comienzos y los finales. Al tener dos caras, una mira hacia el interior (la plataforma de usuario) y otra hacia el exterior (hacia tu plataforma PAIC).
+
+
+anubis_paic= Agentes de Errores, Estos agentes buscan fallos en el sistema, "juzgan" la gravedad del error y lo reportan inmediatamente. La Mitología Egipcia representa muy bien el juicio y la rectitud. Nombre sugerido: ANUBIS Por qué: Es el guardián del inframundo que pesa el corazón de los fallecidos en una balanza para ver si hay impurezas. Tu agente de errores analiza los logs del sistema buscando "impurezas" (bugs o caídas) para reportarlas a Janus.
+
+minerva_paic= Agentes de Experiencia de Usuario (UX y Recomendaciones)Este agente analiza el comportamiento, busca la armonía del usuario con la plataforma y propone mejoras. Necesita un nombre asociado a la sabiduría, la estrategia y el bienestar. Nombre sugerido: MINERVA Por qué: Es la diosa de la sabiduría, la estrategia y la civilización. No busca destruir errores, sino optimizar la experiencia, pensar de forma inteligente y dar recomendaciones estratégicas a Jannus.
+
+[ Plataforma de Usuario ]
+   ├── ANUBIS (Detecta error) ───────────┐
+   │                                          ▼
+   └── MINERVA (Detecta mejora UX) ──► JANO (Agente A2A) ──► HEIMDALL (PAIC Principal) ──► ODIN (analiza y ordena) ──► hefesto (ejecuta reparaciones y ejecuta tareas)
+
+
+               ╔══════════════════════════════════════════════╗
+               ║                  [ Mauricio ]        			                ║
+               ╚═══════════════╦══════════════╦═══════════════╝
+                               ║              ║
+                               ▼              ▼
+                     [ ODÍN ] 	    ──► [ HEFESTO ]
+                    (Gran Hermano / Vocero)   (Ingeniero / Programador)
+                               ║
+                               ▼
+                       [ HEIMDALL ] (Guardián de PAIC Principal)
+                               ║
+         ┌─────────────────────┴─────────────────────┐
+         ▼                                           ▼
+[ JANO (A2A Plataforma A) ]                 [ JANO (A2A Plataforma B) ]
+   ├── ANUBIS (Errores)                        ├── ANUBIS (Errores)
+   └── MINERVA (UX/Mejoras)                    └── MINERVA (UX/Mejoras)
+
+
+maat_paic = Nombre sugerido: MAAT (Mitología Egipcia)Por qué encaja perfectamente: Maat es la diosa de la verdad, la justicia, el equilibrio y el orden cósmico. En el juicio egipcio, ella ponía la pluma de la verdad en la balanza para verificar si el corazón del difunto era perfecto o tenía fallas.En tu sistema: Tu agente QA evalúa si el código cumple con las "leyes de Maat" (las pruebas unitarias, de integración y de estrés). Si algo rompe el orden cósmico del software, Maat no lo deja pasar a producción.
+
+                  [ ODÍN ] (Gran Hermano / Orquestador)
+                     │
+                     ▼
+             ►  [ MAAT / LOKI ] (QA Testing / Auditor) ──┐
+            │                                            ▼
+[ HEFESTO ] (Ingeniero / Código) ◄───────────────────────┘
+  (Repara basándose en los reportes de calidad)
+
