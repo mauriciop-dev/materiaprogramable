@@ -1,65 +1,59 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { adminInsforge } from "@/lib/insforge";
 
-const TABLAS: Record<string, string> = {
-  residentes: "residents",
-  unidades: "unidades",
-  proveedores: "providers",
-  personal: "internal_staff",
+const TABLAS: Record<string, { table: string; fkey: string }> = {
+  residentes: { table: "residents", fkey: "conjunto_id" },
+  unidades: { table: "unidades", fkey: "copropiedad_id" },
+  proveedores: { table: "providers", fkey: "conjunto_id" },
+  personal: { table: "internal_staff", fkey: "conjunto_id" },
+  incomes: { table: "incomes", fkey: "conjunto_id" },
+  expenses: { table: "expenses", fkey: "conjunto_id" },
+  tasks: { table: "tasks", fkey: "conjunto_id" },
+  visitor_logs: { table: "visitor_logs", fkey: "conjunto_id" },
+  package_logs: { table: "package_logs", fkey: "conjunto_id" },
+  due_dates: { table: "due_dates", fkey: "conjunto_id" },
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { recurso } = req.query as { recurso: string };
-  const tabla = TABLAS[recurso];
-
-  if (!tabla) return res.status(404).json({ error: "Recurso no encontrado" });
-
-  const baseUrl = process.env.NEXT_PUBLIC_INSFORGE_URL;
-  const apiKey = process.env.INSFORGE_API_KEY;
-  const headers: Record<string, string> = {
-    "Content-Type": "application/json",
-    apikey: apiKey!,
-    Authorization: `Bearer ${apiKey}`,
-  };
+  const conf = TABLAS[recurso];
+  if (!conf) return res.status(404).json({ error: "Recurso no encontrado" });
 
   try {
+    const from = () => adminInsforge!.database.from(conf.table);
+
     switch (req.method) {
       case "GET": {
-        const url = `${baseUrl}/api/database/records/${tabla}?order=created_at.desc`;
-        const response = await fetch(url, { headers });
-        const data = await response.json();
+        const { data, error } = await from().select("*").order("created_at", { ascending: false });
+        if (error) return res.status(400).json({ error: error.message });
         return res.status(200).json({ data });
       }
       case "POST": {
-        const body = { ...req.body, conjunto_id: req.body.copropiedad_id ?? req.body.conjunto_id };
-        const response = await fetch(`${baseUrl}/api/database/records/${tabla}`, {
-          method: "POST",
-          headers: { ...headers, Prefer: "return=representation" },
-          body: JSON.stringify(body),
-        });
-        const data = await response.json();
+        const body = {
+          ...req.body,
+          id: undefined,
+          [conf.fkey]: req.body.conjunto_id ?? req.body.copropriedad_id ?? req.body[conf.fkey],
+        };
+        const { data, error } = await from().insert([body]).select();
+        if (error) return res.status(400).json({ error: error.message });
         return res.status(201).json({ data });
       }
       case "PUT": {
         const { id, ...update } = req.body;
-        const response = await fetch(`${baseUrl}/api/database/records/${tabla}?id=eq.${id}`, {
-          method: "PATCH",
-          headers,
-          body: JSON.stringify(update),
-        });
+        const { error } = await from().update(update).eq("id", id);
+        if (error) return res.status(400).json({ error: error.message });
         return res.status(200).json({ success: true });
       }
       case "DELETE": {
         const { id } = req.body;
-        await fetch(`${baseUrl}/api/database/records/${tabla}?id=eq.${id}`, {
-          method: "DELETE",
-          headers,
-        });
+        const { error } = await from().delete().eq("id", id);
+        if (error) return res.status(400).json({ error: error.message });
         return res.status(200).json({ success: true });
       }
       default:
         return res.status(405).json({ error: "Method not allowed" });
     }
-  } catch (error) {
-    return res.status(500).json({ error: "Error en la operacion" });
+  } catch (error: any) {
+    return res.status(500).json({ error: error?.message ?? "Error en la operacion" });
   }
 }
