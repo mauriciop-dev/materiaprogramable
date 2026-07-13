@@ -1,4 +1,5 @@
 import Sidebar from "./Sidebar";
+import ChatWidget from "../chat/ChatWidget";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -7,6 +8,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <main style={{ marginLeft: "240px", flex: 1, padding: "2rem", background: "#f0f2f5" }}>
         {children}
       </main>
+      <ChatWidget />
     </div>
   );
 }
