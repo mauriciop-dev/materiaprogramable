@@ -12,6 +12,10 @@ const TABLAS: Record<string, { table: string; fkey: string }> = {
   visitor_logs: { table: "visitor_logs", fkey: "conjunto_id" },
   package_logs: { table: "package_logs", fkey: "conjunto_id" },
   due_dates: { table: "due_dates", fkey: "conjunto_id" },
+  common_areas: { table: "common_areas", fkey: "conjunto_id" },
+  reservations: { table: "reservations", fkey: "conjunto_id" },
+  camaras: { table: "camaras", fkey: "conjunto_id" },
+  carteleria: { table: "carteleria_contenidos", fkey: "conjunto_id" },
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
