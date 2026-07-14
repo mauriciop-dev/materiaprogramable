@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Layout from "@/components/layout/Layout";
 import DashboardGrid, { defaultLayout, getDefaultWidgets } from "@/components/dashboard/DashboardGrid";
 import type { LayoutItem } from "@/components/dashboard/DashboardGrid";
@@ -29,13 +29,38 @@ export default function DashboardPage() {
     saved?.activeWidgets ?? getDefaultWidgets()
   );
   const [layout, setLayout] = useState<LayoutItem[]>(saved?.layout ?? defaultLayout());
+  const [seeding, setSeeding] = useState(false);
+  const [seedMsg, setSeedMsg] = useState("");
 
-  useEffect(() => {
+  const loadSummary = useCallback(() => {
+    setLoading(true);
     fetch("/api/dashboard/summary")
       .then((r) => r.json())
       .then((j) => { setData(j.data); setLoading(false); })
       .catch(() => setLoading(false));
   }, []);
+
+  useEffect(() => {
+    loadSummary();
+  }, [loadSummary]);
+
+  async function handleSeed() {
+    setSeeding(true);
+    setSeedMsg("Creando datos de ejemplo...");
+    try {
+      const r = await fetch("/api/seed", { method: "POST" });
+      const j = await r.json();
+      if (j.success) {
+        setSeedMsg("¡Datos creados exitosamente! Recargando...");
+        loadSummary();
+      } else {
+        setSeedMsg(`Error: ${j.error}`);
+      }
+    } catch {
+      setSeedMsg("Error al conectar con el servidor");
+    }
+    setSeeding(false);
+  }
 
   useEffect(() => {
     saveConfig({ activeWidgets, layout });
@@ -68,13 +93,34 @@ export default function DashboardPage() {
 
         {loading ? (
           <p style={{ color: "#888" }}>Cargando datos...</p>
+        ) : data && Object.values(data).every((v: any) => v === 0 || v === "$0") ? (
+          <div style={{ textAlign: "center", padding: "4rem 2rem", background: "white", borderRadius: "12px", boxShadow: "0 2px 8px rgba(0,0,0,0.06)" }}>
+            <h2 style={{ margin: "0 0 0.5rem", color: "#1a1a2e" }}>¡Bienvenido a PAIC!</h2>
+            <p style={{ color: "#888", marginBottom: "1.5rem" }}>
+              Tu plataforma aún no tiene datos. Carga datos de ejemplo para explorar todas las funcionalidades.
+            </p>
+            <button
+              onClick={handleSeed}
+              disabled={seeding}
+              style={{
+                padding: "0.75rem 2rem", background: seeding ? "#ccc" : "#4fc3f7",
+                color: "white", border: "none", borderRadius: "8px",
+                cursor: seeding ? "not-allowed" : "pointer", fontSize: "1rem",
+              }}
+            >
+              {seeding ? "Creando datos..." : "Cargar datos de ejemplo"}
+            </button>
+            {seedMsg && <p style={{ marginTop: "1rem", color: "#666", fontSize: "0.9rem" }}>{seedMsg}</p>}
+          </div>
         ) : (
-          <DashboardGrid
-            data={data}
-            activeWidgets={activeWidgets}
-            layout={layout}
-            onLayoutChange={setLayout}
-          />
+          <>
+            <DashboardGrid
+              data={data}
+              activeWidgets={activeWidgets}
+              layout={layout}
+              onLayoutChange={setLayout}
+            />
+          </>
         )}
       </div>
 

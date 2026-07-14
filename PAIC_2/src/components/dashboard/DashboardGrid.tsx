@@ -11,10 +11,12 @@ const ALL_WIDGETS: Record<string, { title: string; w: number; h: number }> = {
   proveedores: { title: "Proveedores", w: 1, h: 1 },
   personal: { title: "Personal", w: 1, h: 1 },
   visitas: { title: "Visitas Hoy", w: 1, h: 1 },
-  paquetes: { title: "Paquetes Hoy", w: 1, h: 1 },
-  ingresos: { title: "Ingresos", w: 1, h: 1 },
-  gastos: { title: "Gastos", w: 1, h: 1 },
+  paquetes: { title: "Paquetes en Recepción", w: 1, h: 1 },
+  ingresos: { title: "Ingresos del Mes", w: 1, h: 1 },
+  gastos: { title: "Gastos del Mes", w: 1, h: 1 },
   vencimientos: { title: "Vencimientos", w: 1, h: 1 },
+  camaras: { title: "Cámaras", w: 1, h: 1 },
+  cartelera: { title: "Contenido Publicado", w: 1, h: 1 },
 };
 
 const WIDGET_IDS = Object.keys(ALL_WIDGETS);
@@ -51,6 +53,8 @@ export default function DashboardGrid({
       ingresos: `$${(data?.ingresos_mes ?? 0).toLocaleString()}`,
       gastos: `$${(data?.gastos_mes ?? 0).toLocaleString()}`,
       vencimientos: data?.vencimientos ?? 0,
+      camaras: data?.camaras ?? 0,
+      cartelera: data?.cartelera ?? 0,
     };
 
     return (

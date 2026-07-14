@@ -1,21 +1,19 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { adminInsforge } from "@/lib/insforge";
 
-const BASE = process.env.NEXT_PUBLIC_INSFORGE_URL!;
-const KEY = process.env.INSFORGE_API_KEY!;
-const H = { apikey: KEY, Authorization: `Bearer ${KEY}` };
-
-async function count(tabla: string, filter = "") {
-  const url = `${BASE}/api/database/records/${tabla}?limit=0${filter ? `&${filter}` : ""}`;
-  const r = await fetch(url, { headers: H });
-  const d = await r.json();
-  return Array.isArray(d) ? d.length : 0;
+async function count(tabla: string, filter?: { col: string; val: string }) {
+  const query = adminInsforge!.database.from(tabla).select("*");
+  if (filter) query.eq(filter.col, filter.val);
+  const { data, error } = await query;
+  if (error) throw new Error(error.message);
+  return Array.isArray(data) ? data.length : 0;
 }
 
 async function sum(tabla: string, col: string) {
-  const url = `${BASE}/api/database/records/${tabla}?select=${col}`;
-  const r = await fetch(url, { headers: H });
-  const d: any[] = await r.json();
-  return d.reduce((a: number, b: any) => a + Number(b[col] ?? 0), 0);
+  const { data, error } = await adminInsforge!.database.from(tabla).select(col);
+  if (error) throw new Error(error.message);
+  const rows = Array.isArray(data) ? data : [];
+  return rows.reduce((a: number, b: any) => a + Number(b[col] ?? 0), 0);
 }
 
 export default async function handler(_req: NextApiRequest, res: NextApiResponse) {
@@ -23,11 +21,12 @@ export default async function handler(_req: NextApiRequest, res: NextApiResponse
     const [
       residentes, unidades, tareasPend, tareasTotal,
       proveedores, personal, visitasHoy, paquetesHoy,
-      ingresosTotal, gastosTotal, vencimientos,
-    ] = await Promise.all([
+      ingresosTotal, gastosTotal, vencimientos, camaras,
+      cartelera,
+    ] = await Promise.allSettled([
       count("residents"),
       count("unidades"),
-      count("tasks", "completed=eq.false"),
+      count("tasks", { col: "completed", val: "false" }),
       count("tasks"),
       count("providers"),
       count("internal_staff"),
@@ -36,16 +35,30 @@ export default async function handler(_req: NextApiRequest, res: NextApiResponse
       sum("incomes", "amount"),
       sum("expenses", "amount"),
       count("due_dates"),
+      count("camaras"),
+      count("carteleria_contenidos"),
     ]);
+
+    const val = (p: PromiseSettledResult<number>) => p.status === "fulfilled" ? p.value : 0;
 
     res.status(200).json({
       data: {
-        residentes, unidades, tareas_pendientes: tareasPend, tareas_total: tareasTotal,
-        proveedores, personal, visitas_hoy: visitasHoy, paquetes_hoy: paquetesHoy,
-        ingresos_mes: ingresosTotal, gastos_mes: gastosTotal, vencimientos,
+        residentes: val(residentes),
+        unidades: val(unidades),
+        tareas_pendientes: val(tareasPend),
+        tareas_total: val(tareasTotal),
+        proveedores: val(proveedores),
+        personal: val(personal),
+        visitas_hoy: val(visitasHoy),
+        paquetes_hoy: val(paquetesHoy),
+        ingresos_mes: val(ingresosTotal),
+        gastos_mes: val(gastosTotal),
+        vencimientos: val(vencimientos),
+        camaras: val(camaras),
+        cartelera: val(cartelera),
       },
     });
-  } catch {
-    res.status(500).json({ error: "Error al conectar con el health check" });
+  } catch (error: any) {
+    res.status(500).json({ error: error?.message ?? "Error al conectar con el health check" });
   }
 }
