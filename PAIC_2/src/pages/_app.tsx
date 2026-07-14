@@ -2,6 +2,7 @@ import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { insforge } from "@/lib/insforge";
+import { CopropiedadProvider } from "@/context/CopropiedadContext";
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -21,5 +22,9 @@ export default function App({ Component, pageProps }: AppProps) {
     return <div style={{ padding: "2rem", fontFamily: "sans-serif" }}>Cargando...</div>;
   }
 
-  return <Component {...pageProps} />;
+  return (
+    <CopropiedadProvider>
+      <Component {...pageProps} />
+    </CopropiedadProvider>
+  );
 }

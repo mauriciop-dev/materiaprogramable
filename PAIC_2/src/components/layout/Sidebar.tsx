@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import PropertySwitcher from "./PropertySwitcher";
+import { useCopropiedad } from "@/context/CopropiedadContext";
 
 const MENU_BASE = [
   { label: "Centro de Control", href: "/dashboard", icon: "📊", modulo: "dashboard" },
@@ -18,16 +20,16 @@ const MENU_BASE = [
 
 export default function Sidebar() {
   const router = useRouter();
+  const { lista } = useCopropiedad();
   const [modulosPermitidos, setModulosPermitidos] = useState<string[] | null>(null);
-  const [planActual, setPlanActual] = useState<string>("");
+  const [planActual, setPlanActual] = useState("");
 
   useEffect(() => {
     fetch("/api/subscription")
       .then((r) => r.json())
       .then((j) => {
         setPlanActual(j.plan_actual ?? "basico");
-        const modulos = j.modulos_por_plan?.[j.plan_actual] ?? [];
-        setModulosPermitidos(modulos);
+        setModulosPermitidos(j.modulos_por_plan?.[j.plan_actual] ?? []);
       })
       .catch(() => setModulosPermitidos([]));
   }, []);
@@ -36,6 +38,8 @@ export default function Sidebar() {
     if (!modulosPermitidos) return true;
     return modulosPermitidos.includes(modulo);
   };
+
+  const tieneMulti = lista.length > 1 || planActual === "multi";
 
   return (
     <aside style={{
@@ -51,14 +55,33 @@ export default function Sidebar() {
       {planActual && (
         <Link href="/dashboard/planes" style={{
           display: "flex", alignItems: "center", gap: "0.4rem",
-          padding: "0.3rem 1.5rem 0.7rem", fontSize: "0.75rem",
+          padding: "0.3rem 1.5rem 0.5rem", fontSize: "0.75rem",
           color: "#4fc3f7", textDecoration: "none",
         }}>
           Plan: {planActual.toUpperCase()} ⚙️
         </Link>
       )}
 
+      <PropertySwitcher />
+
       <nav>
+        {tieneMulti && (
+          <Link
+            href="/dashboard/multi"
+            style={{
+              display: "flex", alignItems: "center", gap: "0.6rem",
+              padding: "0.7rem 1.5rem",
+              color: router.pathname === "/dashboard/multi" ? "#4fc3f7" : "#ccd",
+              textDecoration: "none", fontSize: "0.9rem",
+              background: router.pathname === "/dashboard/multi" ? "rgba(79,195,247,0.1)" : "transparent",
+              borderRight: router.pathname === "/dashboard/multi" ? "3px solid #4fc3f7" : "3px solid transparent",
+            }}
+          >
+            <span>🏢</span>
+            <span>Dashboard Multi</span>
+          </Link>
+        )}
+
         {MENU_BASE.map((item) => {
           const active = router.pathname === item.href;
           const permitido = tieneModulo(item.modulo);
