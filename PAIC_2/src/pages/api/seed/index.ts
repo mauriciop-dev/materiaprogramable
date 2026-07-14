@@ -25,8 +25,15 @@ async function seed() {
   const { data: userProf } = await db().from("user_profiles").select("*").limit(1);
   const uid = userProf?.[0]?.id ?? "demo-user";
 
-  await db().from("usuario_copropiedad").insert([{ usuario_id: uid, copropiedad_id: cid }]);
+  await db().from("usuario_copropiedad").insert([{ user_id: uid, copropiedad_id: cid }]);
   report.push("Usuario vinculado a copropiedad");
+
+  const trialEnd = new Date(Date.now() + 30 * 86400000).toISOString();
+  await db().from("suscripciones").insert([{
+    copropiedad_id: cid, plan: "prueba", estado: "activa",
+    fecha_inicio: now, fecha_fin: trialEnd,
+  }]);
+  report.push("Suscripción de prueba creada (30 días)");
 
   const unidades = [
     { codigo: "A-101", torre: "Torre A", piso: 1, area: 68, tipo: "apartamento", propietario: "Carlos Martínez" },
