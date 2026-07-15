@@ -17,7 +17,8 @@ const blog = defineCollection({
             category: z.enum(['fundamentos', 'actualidad', 'casos-de-uso', 'opinion', 'investigacion']).default('fundamentos'),
             lang: z.enum(['es', 'en']).default('es'),
             ogImage: z.string().optional(),
-			animation: z.object({
+            translationOf: z.string().optional(),
+            animation: z.object({
 				theme: z.string().default('sci-fi'),
 				primaryColor: z.string().default('#00ffff'),
 				secondaryColor: z.string().default('#8b5cf6'),

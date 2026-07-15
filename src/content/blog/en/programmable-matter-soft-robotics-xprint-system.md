@@ -3,6 +3,7 @@ title: 'xPrint System: Functional Liquid Printing for Programmable Matter'
 description: 'How MIT Media Lab xPrint system enables deposition of smart and active materials.'
 pubDate: '2026-02-25'
 ogImage: 'og-robotics1.jpeg'
+translationOf: 'materia-programable-robotica-blanda-sistema-xprint'
 animation:
   theme: 'sci-fi'
   primaryColor: '#0ea5e9'

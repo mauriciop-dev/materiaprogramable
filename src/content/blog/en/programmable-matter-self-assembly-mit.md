@@ -3,6 +3,7 @@ title: 'The Frontier of Self-Assembly: MIT Self-Assembly Lab'
 description: 'How MIT Self-Assembly Lab is transforming manufacturing with self-assembling materials and 4D printing.'
 pubDate: '2026-03-05'
 ogImage: 'og-robotics1.jpeg'
+translationOf: 'materia-programable-frontera-auto-ensamblaje-mit'
 animation:
   theme: 'organic'
   primaryColor: '#0ea5e9'

@@ -3,6 +3,7 @@ title: 'Programmable Matter 2026: Global Convergence Report'
 description: 'Analysis of technological convergence across innovation nodes: Cambridge (CMOS), Singapore (bio-robotics), Germany (metamaterials), and Latin America.'
 pubDate: '2026-05-01'
 ogImage: 'og-convergencia-global-2026.png'
+translationOf: 'materia-programable-convergencia-global-2026'
 animation:
   theme: 'geometric'
   primaryColor: '#06b6d4'

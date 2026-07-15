@@ -3,6 +3,7 @@ title: 'Soft Robotics and 3D Printing: The Wyss Institute'
 description: 'How Harvard Wyss Institute uses multimaterial 3D printing to create soft robots and smart materials.'
 pubDate: '2026-03-01'
 ogImage: 'og-robotics1.jpeg'
+translationOf: 'materia-programable-robotica-blanda-impresion-3d-wyss'
 animation:
   theme: 'molecular'
   primaryColor: '#14b8a6'

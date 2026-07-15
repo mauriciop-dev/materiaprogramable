@@ -3,6 +3,7 @@ title: 'La materia como software: realidad reconfigurable'
 description: 'Cómo la materia programable está transformando objetos estáticos en sistemas dinámicos y actualizables.'
 pubDate: '2025-12-15'
 ogImage: 'og-molecular1.jpeg'
+translationOf: 'programmable-matter-introduction'
 animation:
   theme: 'sci-fi'
   primaryColor: '#00ffff'

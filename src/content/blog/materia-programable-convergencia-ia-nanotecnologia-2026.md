@@ -3,6 +3,7 @@ title: 'Materia programable: la convergencia de IA y nanotecnología en 2026'
 description: 'Cómo la inteligencia artificial y la fabricación avanzada están acelerando el desarrollo de la materia programable.'
 pubDate: '2026-01-05'
 ogImage: 'og-robotics1.jpeg'
+translationOf: 'programmable-matter-convergence-ai-nanotechnology-2026'
 animation:
   theme: 'neural'
   primaryColor: '#ec4899'

@@ -3,6 +3,7 @@ title: 'Quantum Programmable Matter: Designing Reality from the Molecular Block'
 description: 'Explora cómo las moléculas de diseño pueden actuar como qubits y actuadores estructurales, redefiniendo la materia programable.'
 pubDate: '2026-05-17'
 ogImage: 'og-quantum-matter.jpeg'
+translationOf: 'quantum-programmable-matter-designing-reality'
 animation:
   theme: 'sci-fi'
   primaryColor: '#00ffff'

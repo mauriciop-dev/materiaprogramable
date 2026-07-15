@@ -8,5 +8,12 @@ import { defineConfig } from 'astro/config';
 export default defineConfig({
 	site: 'https://www.materiaprogramable.com',
 	output: 'static',
+	i18n: {
+		defaultLocale: 'es',
+		locales: ['es', 'en'],
+		routing: {
+			prefixDefaultLocale: false,
+		},
+	},
 	integrations: [mdx(), sitemap()],
 });

@@ -3,6 +3,7 @@ title: 'Nanofabricación con ADN: la nueva frontera de la materia programable'
 description: 'Cómo la nanotecnología de ADN está permitiendo programar la materia a escala molecular para aplicaciones médicas.'
 pubDate: '2026-02-20'
 ogImage: 'og-molecular1.jpeg'
+translationOf: 'dna-nanofabrication-new-frontier-programmable-matter'
 animation:
   theme: 'molecular'
   primaryColor: '#14b8a6'

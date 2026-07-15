@@ -3,6 +3,7 @@ title: 'Robótica blanda e impresión 3D: el Instituto Wyss'
 description: 'Cómo el Instituto Wyss de Harvard utiliza impresión 3D multimaterial para crear robots blandos y materiales inteligentes.'
 pubDate: '2026-03-01'
 ogImage: 'og-robotics1.jpeg'
+translationOf: 'programmable-matter-soft-robotics-advances-wyss'
 animation:
   theme: 'molecular'
   primaryColor: '#14b8a6'

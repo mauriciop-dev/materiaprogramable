@@ -3,6 +3,7 @@ title: 'DNA Nanofabrication: The New Frontier of Programmable Matter'
 description: 'How DNA nanotechnology is enabling programming matter at the molecular scale for medical applications.'
 pubDate: '2026-02-20'
 ogImage: 'og-molecular1.jpeg'
+translationOf: 'nanofabricacion-adn-nueva-frontera-materia-programable'
 animation:
   theme: 'molecular'
   primaryColor: '#14b8a6'

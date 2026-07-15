@@ -3,6 +3,7 @@ title: 'Sistema xPrint: impresión funcional de líquidos para materia programab
 description: 'Cómo el sistema xPrint del MIT Media Lab permite la deposición de materiales inteligentes y activos.'
 pubDate: '2026-02-25'
 ogImage: 'og-robotics1.jpeg'
+translationOf: 'programmable-matter-soft-robotics-xprint-system'
 animation:
   theme: 'sci-fi'
   primaryColor: '#0ea5e9'

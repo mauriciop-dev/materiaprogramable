@@ -4,6 +4,7 @@ description: 'Científicos de Johns Hopkins presentan los primeros microrobots q
 pubDate: '2026-07-07'
 category: 'investigacion'
 lang: 'es'
+translationOf: 'soluble-metal-swarms-biodegradable-microrobots-jhu'
 animation:
   theme: 'mechanical'
   primaryColor: '#64748b'

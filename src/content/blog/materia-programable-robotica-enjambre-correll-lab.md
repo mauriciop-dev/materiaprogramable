@@ -3,6 +3,7 @@ title: 'Materia Programable y Robótica de Enjambre: La Visión del Correll Lab'
 description: 'Cómo el Correll Lab de la Universidad de Colorado Boulder está redefiniendo los objetos inteligentes con robótica modular y de enjambre.'
 pubDate: '2026-04-08'
 ogImage: 'og-robotics1.jpeg'
+translationOf: 'programmable-matter-swarm-robotics-correll-lab'
 animation:
   theme: 'mechanical'
   primaryColor: '#64748b'

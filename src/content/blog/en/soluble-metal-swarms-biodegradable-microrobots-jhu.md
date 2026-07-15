@@ -4,6 +4,7 @@ description: 'Johns Hopkins scientists unveil the first 100% metallic, fully bio
 pubDate: '2026-07-07'
 category: 'investigacion'
 lang: 'en'
+translationOf: 'enjambres-metal-soluble-microrobots-jhu'
 animation:
   theme: 'mechanical'
   primaryColor: '#64748b'

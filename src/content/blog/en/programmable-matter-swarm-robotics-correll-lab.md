@@ -3,6 +3,7 @@ title: 'Programmable Matter and Swarm Robotics: The Vision of Correll Lab'
 description: 'How Correll Lab at University of Colorado Boulder is redefining smart objects with modular and swarm robotics.'
 pubDate: '2026-04-08'
 ogImage: 'og-robotics1.jpeg'
+translationOf: 'materia-programable-robotica-enjambre-correll-lab'
 animation:
   theme: 'mechanical'
   primaryColor: '#64748b'

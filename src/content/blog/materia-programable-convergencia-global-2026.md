@@ -3,6 +3,7 @@ title: 'Materia Programable 2026: Informe de Convergencia Global'
 description: 'Análisis de la convergencia tecnológica en nodos de innovación: Cambridge (CMOS), Singapur (bio-robótica), Alemania (metamateriales) y América Latina.'
 pubDate: '2026-05-01'
 ogImage: 'og-convergencia-global-2026.png'
+translationOf: 'programmable-matter-global-convergence-2026'
 animation:
   theme: 'geometric'
   primaryColor: '#06b6d4'

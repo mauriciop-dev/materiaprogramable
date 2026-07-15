@@ -3,6 +3,7 @@ title: 'Matter Swarms: The Technological Duel Between Harbin and Correll Lab'
 description: 'A comparative analysis of the technological duel between China and the US: Harbins fluid microrobots versus the structured, conscious matter of the Correll Lab.'
 pubDate: '2026-04-24'
 ogImage: 'og-robotics1.jpeg'
+translationOf: 'harbin-vs-correll-lab-duelo-materia-programable'
 animation:
   theme: 'sci-fi'
   primaryColor: '#00ffcc'

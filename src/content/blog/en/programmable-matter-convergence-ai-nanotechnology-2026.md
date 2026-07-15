@@ -3,6 +3,7 @@ title: 'Programmable Matter: The Convergence of AI and Nanotechnology in 2026'
 description: 'How artificial intelligence and advanced manufacturing are accelerating the development of programmable matter.'
 pubDate: '2026-01-05'
 ogImage: 'og-robotics1.jpeg'
+translationOf: 'materia-programable-convergencia-ia-nanotecnologia-2026'
 animation:
   theme: 'neural'
   primaryColor: '#ec4899'

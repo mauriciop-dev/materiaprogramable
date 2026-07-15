@@ -3,6 +3,7 @@ title: 'Sustainable Design with Programmable Matter: Morphing Matter Lab'
 description: 'How UC Berkeley Morphing Matter Lab develops materials that transform to solve ecological problems.'
 pubDate: '2026-02-10'
 ogImage: 'og-space1.jpeg'
+translationOf: 'materia-programable-diseno-sustentable-morphing-matter-lab'
 animation:
   theme: 'organic'
   primaryColor: '#22d3ee'

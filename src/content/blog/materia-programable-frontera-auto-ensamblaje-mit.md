@@ -3,6 +3,7 @@ title: 'La frontera del auto-ensamblaje: el MIT Self-Assembly Lab'
 description: 'Cómo el Self-Assembly Lab del MIT está transformando la fabricación con materiales que se construyen solos.'
 pubDate: '2026-03-05'
 ogImage: 'og-robotics1.jpeg'
+translationOf: 'programmable-matter-self-assembly-mit'
 animation:
   theme: 'organic'
   primaryColor: '#0ea5e9'

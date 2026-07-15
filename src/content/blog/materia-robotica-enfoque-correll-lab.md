@@ -3,6 +3,7 @@ title: 'Materia robótica: el enfoque del Correll Lab'
 description: 'Cómo el Correll Lab de la Universidad de Colorado Boulder desarrolla materiales robóticos con sensores, actuadores y computación integrados.'
 pubDate: '2026-02-15'
 ogImage: 'og-robotics1.jpeg'
+translationOf: 'robotic-materials-correll-lab-approach'
 animation:
   theme: 'mechanical'
   primaryColor: '#64748b'

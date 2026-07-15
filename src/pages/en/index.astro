@@ -1,20 +1,20 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
-import Header from '../components/Header.astro';
-import MateriaCanvas from '../components/MateriaCanvas.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import BaseHead from '../../components/BaseHead.astro';
+import Footer from '../../components/Footer.astro';
+import Header from '../../components/Header.astro';
+import MateriaCanvas from '../../components/MateriaCanvas.astro';
 import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('blog'))
-	.filter((post) => !post.id.startsWith('en/'))
+	.filter((post) => post.id.startsWith('en/'))
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang="en">
 	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<BaseHead title="Materia Programable" description="Exploring the future of programmable matter: artificial intelligence, nanotechnology, soft robotics, self-assembly and neuromorphic computing." />
+        <link rel="alternate" hreflang="es" href="https://www.materiaprogramable.com/" />
         <link rel="alternate" hreflang="en" href="https://www.materiaprogramable.com/en/" />
         <link rel="alternate" hreflang="x-default" href="https://www.materiaprogramable.com/" />
         <style>
@@ -79,12 +79,7 @@ const posts = (await getCollection('blog'))
         <MateriaCanvas />
 		<Header />
 		<main>
-			<section class="glass-panel" style="margin-bottom: 3rem; padding: 1rem; position: relative;">
-<div style="position: absolute; top: 0.5rem; left: 0; right: 0; text-align: center; z-index: 10;">
-                    <p style="font-size: 1.1rem; font-style: italic; color: #00ffff; text-shadow: 0 0 10px rgba(0,240,255,0.5); margin: 0;">
-                        "Introducción a la Materia Programable"
-                    </p>
-                </div>
+            <section class="glass-panel" style="margin-bottom: 3rem; padding: 1rem; position: relative;">
                 <div style="margin-top: 2rem;border-radius: 8px;overflow: hidden;">
                     <video controls style="width:100%;display:block;border-radius:8px;" poster="">
                         <source src="/media/Materia_Programable1.mp4" type="video/mp4">
@@ -93,7 +88,8 @@ const posts = (await getCollection('blog'))
             </section>
 
             <section class="category-section">
-                <h2>Últimas Investigaciones</h2>
+                <h2>Latest Research</h2>
+                <p class="category-desc">Exploring the frontiers of programmable matter, smart materials, and autonomous systems.</p>
                 <div class="post-grid">
                     {posts.map((post) => (
                         <a href={`/blog/${post.id}/`} class="glass-panel post-card">
@@ -101,7 +97,7 @@ const posts = (await getCollection('blog'))
                             <h4>{post.data.title}</h4>
                             <span class="date">
                                 <time datetime={post.data.pubDate.toISOString()}>
-                                    {post.data.pubDate.toLocaleDateString('es-es', {
+                                    {post.data.pubDate.toLocaleDateString('en-US', {
                                         year: 'numeric',
                                         month: 'short',
                                         day: 'numeric',

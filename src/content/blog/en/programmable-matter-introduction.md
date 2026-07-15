@@ -5,6 +5,7 @@ pubDate: 2026-04-09
 category: fundamentos
 lang: en
 ogImage: 'og-molecular1.jpeg'
+translationOf: 'la-materia-como-software-realidad-reconfigurable'
 animation:
   theme: 'sci-fi'
   primaryColor: '#00ffff'

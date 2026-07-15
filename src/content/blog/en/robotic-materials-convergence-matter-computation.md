@@ -3,6 +3,7 @@ title: 'Robotic Materials: The Convergence of Matter and Computation'
 description: 'How the integration of sensors, actuators, and computation in materials is creating a new generation of machines.'
 pubDate: '2025-12-01'
 ogImage: 'og-robotics1.jpeg'
+translationOf: 'materiales-roboticos-convergencia-materia-computacion'
 animation:
   theme: 'mechanical'
   primaryColor: '#64748b'
